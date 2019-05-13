@@ -4,7 +4,6 @@ import { InputComponent } from "../core.js";
 import classnames from "classnames";
 
 import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
 
 export class Value extends InputComponent {
   validators = [validators.required, validators.range];

@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 
 import update from "immutability-helper";
 import classnames from "classnames";
-import "./modal.scss";
 
 class Modal extends React.Component {
   render() {

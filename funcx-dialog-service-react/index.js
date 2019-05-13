@@ -20,8 +20,6 @@ Example:
 
 import React from "react";
 import classnames from "classnames";
-import "./dialogService.scss";
-import "./onsenui-module.scss";
 
 class OnsenAlertDialog extends React.Component {
   modalShouldBeClosed(result) {
