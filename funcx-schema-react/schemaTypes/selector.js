@@ -49,7 +49,13 @@ export class Value extends FuncxComponent {
 }
 
 export class Display extends React.Component {
+  isActive(item) {
+    return (
+      (item && item.id) === ((this.props.value && this.props.value.id) || null)
+    );
+  }
   render() {
-    return <div className="schemaValue">{this.props.value}</div>;
+    const selectedOption = this.props.params.options && this.props.params.options.find(option => option && this.isActive(option));
+    return <div className="schemaValue schemaValueDisplay">{selectedOption && selectedOption.title}</div>;
   }
 }
