@@ -72,6 +72,15 @@ export class ValidationHelper {
     }
     this.emitter.emit("validationChange", this.validations);
   }
+  recalculateValidation() {
+    this.validationCount = 0;
+    this.suppressableValidationCount = 0;
+    for(const validation of Object.values(this.validations)) {
+      if(validation.validationResult) {
+        this.validationCount += 1;
+      }
+    }
+  }
   unsuppressAll() {
     this.focus(this.maxValidationId + 1);
   }

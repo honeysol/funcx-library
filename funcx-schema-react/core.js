@@ -32,7 +32,7 @@ const findAsync = function findAsync(array, callback) {
 
 export const getComponent = (
   schema: any,
-  { defaultComponent, schemaTypes }: any = {}
+  { defaultComponent, schemaTypes, context }: any = {}
 ) => {
   if (!schema || !schema.schemaType) {
     return defaultComponent || DammyComponent;
@@ -41,8 +41,8 @@ export const getComponent = (
     typeof schema.schemaType === "string"
       ? schemaTypes[schema.schemaType]
       : schema.schemaType;
-  if (schema.readOnly) {
-    return schemaType.Display;
+  if (schema.readOnly || context && context.readOnly) {
+    return schemaType.Display || schemaType.Value;
   } else {
     return schemaType.Value;
   }
@@ -257,14 +257,16 @@ export class FuncxComponent extends React.Component<any, any> {
           parent: this.props.context.parent,
           onUpdateValue: this.onUpdateValue,
         },
+        readOnly: this.props.context.readOnly || this.props.params.readOnly
       });
     }
     return this.calculatedContext;
   }
-  getComponent(schema: any, { defaultComponent, schemaTypes }: any = {}) {
+  getComponent(schema: any, { defaultComponent, schemaTypes, context }: any = {}) {
     return getComponent(schema, {
       defaultComponent,
       schemaTypes: this.props.system.schemaTypes || schemaTypes,
+      context: context || this.getContext(),
     });
   }
 }
