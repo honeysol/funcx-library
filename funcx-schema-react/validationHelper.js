@@ -26,7 +26,7 @@ export class ValidationAccessor {
     }
   }
   unregister() {
-    return null;
+    this.update(null);
   }
   focus() {
     this.validationHelper.focus(this.validationId);

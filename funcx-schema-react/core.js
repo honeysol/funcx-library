@@ -161,7 +161,9 @@ export class FuncxComponent extends React.Component<any, any> {
   componentWillMount() {
     this.setValue(this.state.value, this.props.params.difference, true);
   }
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    this.validationAccessor.unregister();
+  }
   clear() {
     if (this.props.params.difference) {
       this.setState({ value: null });
