@@ -63,7 +63,7 @@ export class FuncxComponent extends React.Component<any, any> {
 
     this.state = {
       value: this.calculateStateValue(this.props.value),
-      validationSuppressed: props.params.supressValidation,
+      validationSuppressed: props.params.suppressValidation,
       params: this.convertParams(props),
     };
     if (this.props.context && this.props.context.validationHelper) {
