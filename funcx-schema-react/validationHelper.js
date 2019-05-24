@@ -26,7 +26,7 @@ export class ValidationAccessor {
     }
   }
   unregister() {
-    this.update(null);
+    this.validationHelper.unregister(this.validationId);
   }
   focus() {
     this.validationHelper.focus(this.validationId);
@@ -50,6 +50,10 @@ export class ValidationHelper {
     const accessor = new ValidationAccessor(this, validationId, options);
     this.accessors[validationId] = accessor;
     return accessor;
+  }
+  unregister(validationId) {
+    this.updateValidation(validationId, null);
+    delete this.accessors[validationId];
   }
   destroy() {
     this.emitter.removeAllListeners();
