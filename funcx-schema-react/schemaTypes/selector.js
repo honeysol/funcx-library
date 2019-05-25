@@ -3,14 +3,22 @@ import * as validators from "../validators";
 import { FuncxComponent } from "../core.js";
 import classnames from "classnames";
 
+let selectorId = 1;
+
 export class Value extends FuncxComponent {
   validators = [validators.required];
+  constructor(...args) {
+    super(...args);
+    ++selectorId;
+    this.selectorId = selectorId;
+  }
   onSelect(item) {
     if (this.state.value && item && this.state.value.id === item.id) {
       this.setValue(null);
     } else {
       this.setValue(item);
     }
+    this.onBlur();
   }
   isActive(item) {
     return (
@@ -22,18 +30,28 @@ export class Value extends FuncxComponent {
     return (
       <div className="schemaValueContainer">
         <div className="schemaValue">
-          <div className="selectorList">
+          <div
+            className={classnames("selectorList", {
+              focused: this.state.focused,
+            })}
+          >
             {this.props.params.options.map((item, index) => (
               <span
                 key={index}
                 className={classnames("selectorItem", {
                   selectorItemActive: this.isActive(item),
                 })}
-                onClick={() => {
-                  this.onSelect(item);
-                }}
               >
-                {item.title}
+                <input
+                  type="radio"
+                  className={this.isActive(item) && "debug_active"}
+                  name={"selector" + this.selectorId}
+                  onClick={() => {
+                    this.onSelect(item);
+                  }}
+                  checked={this.isActive(item)}
+                />
+                <span>{item.title}</span>
               </span>
             ))}
           </div>
@@ -55,7 +73,13 @@ export class Display extends React.Component {
     );
   }
   render() {
-    const selectedOption = this.props.params.options && this.props.params.options.find(option => option && this.isActive(option));
-    return <div className="schemaValue schemaValueDisplay">{selectedOption && selectedOption.title}</div>;
+    const selectedOption =
+      this.props.params.options &&
+      this.props.params.options.find(option => option && this.isActive(option));
+    return (
+      <div className="schemaValue schemaValueDisplay">
+        {selectedOption && selectedOption.title}
+      </div>
+    );
   }
 }
