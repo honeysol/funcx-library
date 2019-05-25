@@ -616,3 +616,7 @@ pre.schemaValue {
   -moz-appearance: none;
   appearance: none;
 }
+
+.fieldHeaderRequired:after {
+  content: "*";
+}

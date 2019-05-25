@@ -13,7 +13,16 @@ class Field extends InputComponent {
     const Component = this.getComponent(this.state.params.schema, {});
     return (
       <div className={classnames("schemaItem", this.state.params.className)}>
-        <span className="fieldHeader">{this.state.params.title}</span>
+        <span
+          className={classnames(
+            "fieldHeader",
+            this.state.params.schema.required
+              ? "fieldHeaderRequired"
+              : "fieldHeaderOptional"
+          )}
+        >
+          {this.state.params.title}
+        </span>
         <Component
           value={this.state.value}
           onUpdateValue={this.onUpdateValue}
