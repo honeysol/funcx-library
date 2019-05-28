@@ -15,6 +15,7 @@ export class Value extends InputComponent {
             onChange={this.onChange}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
+            placeholder={this.state.params.placeholder}
           />
         </div>
         {validationResult && (

@@ -128,6 +128,7 @@ export class Value extends InputComponent {
                     onChange={this.onChangeText}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
+                    placeholder={this.state.params.placeholder}
                   />
                 );
               }
