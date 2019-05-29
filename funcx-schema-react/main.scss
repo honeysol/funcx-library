@@ -597,7 +597,8 @@ pre.schemaValue {
   box-sizing: border-box;
 }
 
-.selectorItem input[type="radio"] {
+.selectorItem input[type="radio"],
+.selectorItem input[type="checkbox"] {
   position: absolute;
   right: 0;
   top: 0;
