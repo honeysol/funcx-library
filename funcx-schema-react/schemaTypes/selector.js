@@ -20,6 +20,9 @@ export class Value extends FuncxComponent {
     }
     this.onBlur();
   }
+  onSelectId(id) {
+    this.setValue(id || null);
+  }
   isActive(item) {
     return (
       (item && item.id) === ((this.state.value && this.state.value.id) || null)
@@ -30,31 +33,48 @@ export class Value extends FuncxComponent {
     return (
       <div className="schemaValueContainer">
         <div className="schemaValue">
-          <div
-            className={classnames("selectorList", {
-              focused: this.state.focused,
-            })}
-          >
-            {this.props.params.options.map((item, index) => (
-              <span
-                key={index}
-                className={classnames("selectorItem", {
-                  selectorItemActive: this.isActive(item),
-                })}
+          {!this.props.params.dropdown && (
+            <div
+              className={classnames("selectorList", {
+                focused: this.state.focused,
+              })}
+            >
+              {this.props.params.options.map((item, index) => (
+                <span
+                  key={index}
+                  className={classnames("selectorItem", {
+                    selectorItemActive: this.isActive(item),
+                  })}
+                >
+                  <input
+                    type="radio"
+                    className={this.isActive(item) && "debug_active"}
+                    name={"selector" + this.selectorId}
+                    onClick={() => {
+                      this.onSelect(item);
+                    }}
+                    checked={this.isActive(item)}
+                  />
+                  <span>{item.title}</span>
+                </span>
+              ))}
+            </div>
+          )}
+          {this.props.params.dropdown && (
+            <div>
+              <select
+                onChange={event => {
+                  this.onSelectId(event.target.value);
+                }}
               >
-                <input
-                  type="radio"
-                  className={this.isActive(item) && "debug_active"}
-                  name={"selector" + this.selectorId}
-                  onClick={() => {
-                    this.onSelect(item);
-                  }}
-                  checked={this.isActive(item)}
-                />
-                <span>{item.title}</span>
-              </span>
-            ))}
-          </div>
+                {this.props.params.options.map((item, index) => (
+                  <option key={index} value={item.id}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
         {validationResult && (
           <div className="errorMessage">
