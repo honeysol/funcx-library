@@ -13,20 +13,19 @@ export class Value extends FuncxComponent {
     this.selectorId = selectorId;
   }
   onSelect(item) {
-    if (this.state.value && item && this.state.value.id === item.id) {
+    if (this.state.value && item && this.state.value === item.id) {
       this.setValue(null);
     } else {
-      this.setValue(item);
+      this.setValue(item.id);
     }
     this.onBlur();
   }
   onSelectId(id) {
-    this.setValue(id || null);
+    console.log("onSelectId", id);
+    this.setValue(id);
   }
   isActive(item) {
-    return (
-      (item && item.id) === ((this.state.value && this.state.value.id) || null)
-    );
+    return (item && item.id) === (this.state.value || null);
   }
   render() {
     const validationResult = this.getDisplayValidationResult(this.state);
@@ -67,7 +66,9 @@ export class Value extends FuncxComponent {
           )}
           {this.props.params.dropdown && (
             <div>
+              {this.state.value}
               <select
+                defaultValue={this.state.value}
                 onChange={event => {
                   this.onSelectId(event.target.value);
                 }}
@@ -93,9 +94,7 @@ export class Value extends FuncxComponent {
 
 export class Display extends React.Component {
   isActive(item) {
-    return (
-      (item && item.id) === ((this.props.value && this.props.value.id) || null)
-    );
+    return (item && item.id) === (this.props.value || null);
   }
   render() {
     const selectedOption =
