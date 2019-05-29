@@ -3,7 +3,7 @@ import * as validators from "../validators";
 import { InputComponent } from "../core.js";
 
 export class Value extends InputComponent {
-  validators = [validators.required];
+  validators = [validators.required, validators.passwordMatch];
   render() {
     const validationResult = this.getDisplayValidationResult(this.state);
     return (

@@ -103,3 +103,15 @@ export const pattern = function range(value, params) {
     }
   }
 };
+
+const passwordMatchValidation = {
+  message: "Password not match",
+};
+
+export const passwordMatch = function range(value, params, { context }) {
+  if (params.equalsWith) {
+    if (value !== context.parent.value[params.equalsWith]) {
+      return passwordMatchValidation;
+    }
+  }
+};
