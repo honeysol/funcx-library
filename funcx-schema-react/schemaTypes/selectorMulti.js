@@ -54,9 +54,12 @@ export class Value extends FuncxComponent {
                   onClick={() => {
                     this.onSelect(item);
                   }}
+                  id={`selector-item-${this.selectorId}-${index}`}
                   checked={this.isActive(item)}
                 />
-                <span>{item.title}</span>
+                <label htmlFor={`selector-item-${this.selectorId}-${index}`}>
+                  {item.title}
+                </label>
               </span>
             ))}
           </div>
