@@ -91,3 +91,15 @@ export const range = function range(value, params) {
     return rangeValidation;
   }
 };
+
+const patternValidation = {
+  message: "Pattern not match",
+};
+
+export const pattern = function range(value, params) {
+  if (params.pattern) {
+    if (!new RegExp(params.pattern).test(value)) {
+      return patternValidation;
+    }
+  }
+};
