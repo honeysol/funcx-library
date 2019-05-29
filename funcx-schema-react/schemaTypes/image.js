@@ -94,7 +94,7 @@ class ImageComponent extends InputComponent {
         />
         {validationResult && (
           <div className="errorMessage">
-            {validationResult && validationResult.message}
+            {this.s(validationResult.stringId)}
           </div>
         )}
       </div>

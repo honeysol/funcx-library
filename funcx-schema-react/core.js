@@ -271,6 +271,9 @@ export class FuncxComponent extends React.Component<any, any> {
       context: context || this.getContext(),
     });
   }
+  s(stringId) {
+    return this.props.system.localization.s(stringId, this.props.context.lang);
+  }
 }
 
 export class InputComponent extends FuncxComponent {

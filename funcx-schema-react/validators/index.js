@@ -14,7 +14,7 @@ const emailDomainApi = axios.create({
 });
 
 const emailValidation = {
-  message: "Invalid Email Address",
+  stringId: "emailValidation",
 };
 
 export const email = function email(value, params) {
@@ -29,7 +29,7 @@ export const email = function email(value, params) {
 };
 
 const emailDomainValidation = {
-  message: "Mail server not found",
+  stringId: "emailDomainValidation",
 };
 
 export const emailDomain = function emailDomain(
@@ -61,8 +61,8 @@ export const emailDomain = function emailDomain(
 };
 
 const requiredValidation = {
-  message: "Required",
   suppressable: true,
+  stringId: "requiredValidation",
 };
 
 export const required = function required(value, params) {
@@ -76,7 +76,7 @@ export const required = function required(value, params) {
 };
 
 const rangeValidation = {
-  message: "Out of range",
+  stringId: "rangeValidation",
 };
 
 export const range = function range(value, params) {
@@ -93,7 +93,7 @@ export const range = function range(value, params) {
 };
 
 const patternValidation = {
-  message: "Pattern not match",
+  stringId: "patternValidation",
 };
 
 export const pattern = function range(value, params) {
@@ -105,7 +105,7 @@ export const pattern = function range(value, params) {
 };
 
 const passwordMatchValidation = {
-  message: "Password not match",
+  stringId: "passwordMatchValidation",
 };
 
 export const passwordMatch = function range(value, params, { context }) {

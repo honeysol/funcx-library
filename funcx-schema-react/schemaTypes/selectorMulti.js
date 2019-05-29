@@ -66,7 +66,7 @@ export class Value extends FuncxComponent {
         </div>
         {validationResult && (
           <div className="errorMessage">
-            {validationResult && validationResult.message}
+            {this.s(validationResult.stringId)}
           </div>
         )}
       </div>
