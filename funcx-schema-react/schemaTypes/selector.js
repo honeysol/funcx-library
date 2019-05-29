@@ -66,7 +66,6 @@ export class Value extends FuncxComponent {
           )}
           {this.props.params.dropdown && (
             <div>
-              {this.state.value}
               <select
                 defaultValue={this.state.value}
                 onChange={event => {
