@@ -31,7 +31,12 @@ export class Value extends FuncxComponent {
   render() {
     const validationResult = this.getDisplayValidationResult(this.state);
     return (
-      <div className="schemaValueContainer">
+      <div
+        className={classnames(
+          "schemaValueContainer",
+          this.state.params.className
+        )}
+      >
         <div className="schemaValue">
           {!this.props.params.dropdown && (
             <div
