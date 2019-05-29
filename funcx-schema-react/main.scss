@@ -85,6 +85,11 @@
   line-height: 16px;
   font-size: 16px;
 }
+.schemaValue select {
+  height: 42px;
+  background: #fff;
+  line-height: 10px;
+}
 .schemaValue input:focus,
 .schemaValue select:focus,
 .schemaValue textarea:focus,
