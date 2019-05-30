@@ -21,8 +21,8 @@ export class Value extends FuncxComponent {
     this.onBlur();
   }
   onSelectId(id) {
-    console.log("onSelectId", id);
-    this.setValue(id);
+    // HTMLで空データは "" なので nullに変換する
+    this.setValue(id || null);
   }
   isActive(item) {
     return (item && item.id) === (this.state.value || null);
@@ -67,13 +67,13 @@ export class Value extends FuncxComponent {
           {this.props.params.dropdown && (
             <div>
               <select
-                defaultValue={this.state.value}
+                defaultValue={this.state.value || ""}
                 onChange={event => {
                   this.onSelectId(event.target.value);
                 }}
               >
                 {this.props.params.options.map((item, index) => (
-                  <option key={index} value={item.id}>
+                  <option key={index} value={item.id || ""}>
                     {item.title}
                   </option>
                 ))}
