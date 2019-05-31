@@ -110,7 +110,7 @@ const passwordMatchValidation = {
 
 export const passwordMatch = function range(value, params, { context }) {
   if (params.equalsWith) {
-    if (value !== context.parent.value[params.equalsWith]) {
+    if (value !== (context.parent.value && context.parent.value[params.equalsWith])) {
       return passwordMatchValidation;
     }
   }
