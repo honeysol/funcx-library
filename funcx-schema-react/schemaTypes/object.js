@@ -9,27 +9,28 @@ class Field extends InputComponent {
     this.setValue(value);
   }
   render() {
-    // const validationResult = this.getDisplayValidationResult(this.state);
-    const Component = this.getComponent(this.state.params.schema, {});
+    const Component = this.state.params.schema && this.getComponent(this.state.params.schema, {});
     return (
       <div className={classnames("schemaItem", this.state.params.className)}>
         <span
           className={classnames(
             "fieldHeader",
-            this.state.params.schema.required
+            this.state.params.schema && this.state.params.schema.required
               ? "fieldHeaderRequired"
               : "fieldHeaderOptional"
           )}
         >
           {this.state.params.title}
         </span>
-        <Component
-          value={this.state.value}
-          onUpdateValue={this.onUpdateValue}
-          params={this.state.params.schema}
-          system={this.props.system}
-          context={this.props.context}
-        />
+        { this.state.params.schema && 
+          <Component
+            value={this.state.value}
+            onUpdateValue={this.onUpdateValue}
+            params={this.state.params.schema}
+            system={this.props.system}
+            context={this.props.context}
+          />
+        }
       </div>
     );
   }
