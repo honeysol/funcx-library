@@ -13,6 +13,10 @@ const emailDomainApi = axios.create({
   adapter: cache.adapter,
 });
 
+const checkRequired = value => {
+  return value !== null && value !== undefined && value !== "";
+};
+
 const emailValidation = {
   stringId: "emailValidation",
 };
@@ -37,7 +41,7 @@ export const emailDomain = function emailDomain(
   params,
   { system, context }
 ) {
-  if (value === null || value === undefined || value === "") {
+  if (!checkRequired(value)) {
     return null;
   }
   const match = value.match(/@([^@]+)$/);
@@ -68,7 +72,7 @@ const requiredValidation = {
 export const required = function required(value, params) {
   if (!params.required) {
     return null;
-  } else if (value !== null && value !== undefined && value !== "") {
+  } else if (checkRequired(value)) {
     return null;
   } else {
     return requiredValidation;
@@ -80,7 +84,7 @@ const rangeValidation = {
 };
 
 export const range = function range(value, params) {
-  if (value === null || value === undefined) {
+  if (!checkRequired(value)) {
     return null;
   } else if (
     (params.max === null || params.max === undefined || value <= params.max) &&
@@ -97,6 +101,9 @@ const patternValidation = {
 };
 
 export const pattern = function range(value, params) {
+  if (!checkRequired(value)) {
+    return null;
+  }
   if (params.pattern) {
     if (!new RegExp(params.pattern).test(value)) {
       return patternValidation;
@@ -109,8 +116,14 @@ const passwordMatchValidation = {
 };
 
 export const passwordMatch = function range(value, params, { context }) {
+  if (!checkRequired(value)) {
+    return null;
+  }
   if (params.equalsWith) {
-    if (value !== (context.parent.value && context.parent.value[params.equalsWith])) {
+    if (
+      value !==
+      (context.parent.value && context.parent.value[params.equalsWith])
+    ) {
       return passwordMatchValidation;
     }
   }
