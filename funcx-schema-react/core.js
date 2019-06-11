@@ -41,7 +41,9 @@ export const getComponent = (
     typeof schema.schemaType === "string"
       ? schemaTypes[schema.schemaType]
       : schema.schemaType;
-  if (schema.readOnly || context && context.readOnly) {
+  if (!schemaType) {
+    return DammyComponent;
+  } else if (schema.readOnly || (context && context.readOnly)) {
     return schemaType.Display || schemaType.Value;
   } else {
     return schemaType.Value;
@@ -259,12 +261,15 @@ export class FuncxComponent extends React.Component<any, any> {
           parent: this.props.context.parent,
           onUpdateValue: this.onUpdateValue,
         },
-        readOnly: this.props.context.readOnly || this.props.params.readOnly
+        readOnly: this.props.context.readOnly || this.props.params.readOnly,
       });
     }
     return this.calculatedContext;
   }
-  getComponent(schema: any, { defaultComponent, schemaTypes, context }: any = {}) {
+  getComponent(
+    schema: any,
+    { defaultComponent, schemaTypes, context }: any = {}
+  ) {
     return getComponent(schema, {
       defaultComponent,
       schemaTypes: this.props.system.schemaTypes || schemaTypes,
