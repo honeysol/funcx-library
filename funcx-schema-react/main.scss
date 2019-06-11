@@ -627,6 +627,25 @@ pre.schemaValue {
   content: "*";
 }
 
+.schemaValueText {
+  white-space: pre-wrap;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  height: 200px;
+  align-items: baseline;
+  overflow-y: auto;
+}
+
+.verticalBlock {
+  width: 100%;
+  > .schemaItem {
+    display: block;
+    margin: 15px 0;
+    > .fieldHeader {
+      display: none;
+    }
+  }
+}
+
 .schemaValueBoolean {
   font-size: 16px;
 }
