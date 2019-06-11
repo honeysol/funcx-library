@@ -79,6 +79,19 @@ export const required = function required(value, params) {
   }
 };
 
+const requireValueValidation = {
+  suppressable: true,
+  stringId: "requireValueValidation",
+};
+
+export const requireValue = function requireTrue(value, params) {
+  if (value === params.requireValue) {
+    return null;
+  } else {
+    return requireValueValidation;
+  }
+};
+
 const rangeValidation = {
   stringId: "rangeValidation",
 };

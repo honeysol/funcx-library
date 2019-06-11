@@ -9,6 +9,7 @@ const localization = new Localization(
       rangeValidation: "Out of range",
       patternValidation: "Pattern not match",
       passwordMatchValidation: "Password not match",
+      requireValueValidation: "Required",
     },
     ja: {
       emailValidation: "メールアドレスとして正しくない文字列です",
@@ -18,6 +19,7 @@ const localization = new Localization(
       rangeValidation: "数値が範囲外です",
       patternValidation: "文字列のパターンが正しくありません",
       passwordMatchValidation: "パスワードが一致しません",
+      requireValueValidation: "必須項目です",
     },
   },
   "en"
