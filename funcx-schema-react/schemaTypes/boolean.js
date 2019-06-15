@@ -64,7 +64,7 @@ export class Display extends FuncxComponent {
       <div className="schemaValue schemaValueDisplay">
         {this.state.value
           ? this.state.params.title
-          : this.state.params.titleFalse}
+          : this.state.params.titleNotChecked}
       </div>
     );
   }
