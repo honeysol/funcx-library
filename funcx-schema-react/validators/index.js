@@ -85,7 +85,7 @@ const requireValueValidation = {
 };
 
 export const requireValue = function requireTrue(value, params) {
-  if (value === params.requireValue) {
+  if (!("requireValue" in params) || value === params.requireValue) {
     return null;
   } else {
     return requireValueValidation;
