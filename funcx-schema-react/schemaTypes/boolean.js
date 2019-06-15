@@ -58,10 +58,14 @@ export class Value extends FuncxComponent {
   }
 }
 
-export class Display extends React.Component {
+export class Display extends FuncxComponent {
   render() {
     return (
-      <div className="schemaValue schemaValueDisplay">{this.state.value}</div>
+      <div className="schemaValue schemaValueDisplay">
+        {this.state.value
+          ? this.state.params.title
+          : this.state.params.titleFalse}
+      </div>
     );
   }
 }
