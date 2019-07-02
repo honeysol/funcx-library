@@ -56,10 +56,9 @@ class ObjectValue extends InputComponent {
   }
   getFieldValue(propertyName) {
     if (propertyName != null) {
-      return (
-        (this.state.value && this.state.value[propertyName]) ||
-        (this.props.value && this.props.value[propertyName])
-      );
+      return this.state.value && this.state.value[propertyName] != null
+        ? this.state.value[propertyName]
+        : this.props.value && this.props.value[propertyName];
     } else {
       return this.getValue();
     }
