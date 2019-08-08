@@ -52,7 +52,7 @@ export class Value extends FuncxComponent {
                 >
                   <input
                     type="radio"
-                    className={this.isActive(item) && "debug_active"}
+                    className={(this.isActive(item) && "debug_active") || ""}
                     name={"selector" + this.selectorId}
                     onClick={() => {
                       this.onSelect(item);
