@@ -141,3 +141,27 @@ export const passwordMatch = function range(value, params, { context }) {
     }
   }
 };
+
+const objectFillValidation = {
+  suppressable: true,
+  stringId: "objectFillValidation",
+};
+
+export const objectFill = function range(value, params, { context }) {
+  if (!checkRequired(value)) {
+    return null;
+  }
+  let status = params.required ? true : null;
+  for (const property of params.properties) {
+    const propertyValue = value[property.propertyName];
+    const propertyStatus = checkRequired(propertyValue);
+    if (status === null) {
+      status = propertyStatus;
+    } else if ( status !== propertyStatus) {
+      console.log('%', "not passed");
+      return objectFillValidation;
+    }
+  }
+  console.log('%', "passed");
+  return null;
+};

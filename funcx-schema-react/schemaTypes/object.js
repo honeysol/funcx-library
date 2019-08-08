@@ -9,7 +9,9 @@ class Field extends InputComponent {
     this.setValue(value);
   }
   render() {
-    const Component = this.state.params.schema && this.getComponent(this.state.params.schema, {});
+    const Component =
+      this.state.params.schema &&
+      this.getComponent(this.state.params.schema, {});
     return (
       <div className={classnames("schemaItem", this.state.params.className)}>
         <span
@@ -22,7 +24,7 @@ class Field extends InputComponent {
         >
           {this.state.params.title}
         </span>
-        { this.state.params.schema && 
+        {this.state.params.schema && (
           <Component
             value={this.state.value}
             onUpdateValue={this.onUpdateValue}
@@ -30,7 +32,7 @@ class Field extends InputComponent {
             system={this.props.system}
             context={this.props.context}
           />
-        }
+        )}
       </div>
     );
   }
@@ -65,6 +67,7 @@ class ObjectValue extends InputComponent {
   }
   render() {
     const context = this.getContext();
+    const validationResult = this.getDisplayValidationResult(this.state);
     return (
       <div className={this.state.params.className}>
         {this.state.params.properties &&
@@ -84,6 +87,11 @@ class ObjectValue extends InputComponent {
               />
             );
           })}
+        {validationResult && (
+          <div className="errorMessage">
+            {this.s(validationResult.stringId)}
+          </div>
+        )}          
       </div>
     );
   }

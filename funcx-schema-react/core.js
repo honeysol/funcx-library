@@ -30,6 +30,14 @@ const findAsync = function findAsync(array, callback) {
   });
 };
 
+const toArray = function toArray(arr) {
+  if (Array.isArray(arr)) {
+    return arr;
+  } else {
+    return [];
+  }
+};
+
 export const getComponent = (
   schema: any,
   { defaultComponent, schemaTypes, context }: any = {}
@@ -228,7 +236,10 @@ export class FuncxComponent extends React.Component<any, any> {
   validate(value: any) {
     this.validationRequestCounter += 1;
     const validationRequestCounter = this.validationRequestCounter;
-    return findAsync(this.validators, validator => {
+    return findAsync([
+      ...toArray(this.validators),
+      ...toArray(this.props.params.validators),
+    ], validator => {
       return validator(value, this.props.params, {
         context: this.props.context,
         system: this.props.system,
