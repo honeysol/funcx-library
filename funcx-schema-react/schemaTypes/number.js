@@ -10,10 +10,10 @@ export class Value extends InputComponent {
   onUpdateValue(value) {
     this.setValue(value);
   }
-  onChangeText(e) {
+  onChangeText = e => {
     const value = parseInt(e.target.value || 0, 10);
     this.setValue(parseInt(value, 10));
-  }
+  };
   bound(_value) {
     let value = _value;
     if (this.state.params.max !== null && this.state.params.max !== undefined) {
