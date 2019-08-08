@@ -70,23 +70,25 @@ class ObjectValue extends InputComponent {
     const validationResult = this.getDisplayValidationResult(this.state);
     return (
       <div className={this.state.params.className}>
-        {this.state.params.properties &&
-          this.state.params.properties.map((property, index) => {
-            const Component = property.component || Field;
-            return (
-              <Component
-                key={`item-${index}`}
-                index={index}
-                params={property}
-                value={this.getFieldValue(property.propertyName)}
-                onUpdateValue={_value =>
-                  this.onUpdateValue(_value, property.propertyName)
-                }
-                system={this.props.system}
-                context={context}
-              />
-            );
-          })}
+        <div className="objectProperties">
+          {this.state.params.properties &&
+            this.state.params.properties.map((property, index) => {
+              const Component = property.component || Field;
+              return (
+                <Component
+                  key={`item-${index}`}
+                  index={index}
+                  params={property}
+                  value={this.getFieldValue(property.propertyName)}
+                  onUpdateValue={_value =>
+                    this.onUpdateValue(_value, property.propertyName)
+                  }
+                  system={this.props.system}
+                  context={context}
+                />
+              );
+            })}
+        </div>
         {validationResult && (
           <div className="errorMessage">
             {this.s(validationResult.stringId)}
