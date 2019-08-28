@@ -46,9 +46,11 @@ class RouteEntry {
       routeSetting
     );
     this.isPrefix = !pathOptions.end;
-    this.regexp = pathToRegexp(routeSetting.path, this.keys, pathOptions);
-    this.toPath = pathToRegexp.compile(routeSetting.path);
-    this.isStar = routeSetting.path === "*";
+    if(routeSetting.path) {
+      this.regexp = pathToRegexp(routeSetting.path, this.keys, pathOptions);
+      this.toPath = pathToRegexp.compile(routeSetting.path);
+      this.isStar = routeSetting.path === "*";
+    }
     if (routeSetting.children) {
       this.childMatcher = new RouteMatcher(routeSetting.children);
     }
