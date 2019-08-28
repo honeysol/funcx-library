@@ -1,6 +1,8 @@
 import crypto from "crypto";
 import { Session } from "./session";
 
+const waitTime = 100;
+
 const getRandomHexString = byte => {
   return crypto.randomBytes(byte).toString("hex");
 };
@@ -26,7 +28,7 @@ export class MemoryResource {
         return blob;
       },
       params: async session => {
-        await wait(10);
+        await wait(waitTime);
         return {
           id: getRandomHexString(32),
           filename: blob.name,
@@ -36,7 +38,7 @@ export class MemoryResource {
         const params = await session.getParams();
         const step = 10;
         for (let i = 0; i <= step; i += 1) {
-          await wait(100);
+          await wait(waitTime);
           session.progress({
             progress: i / step,
             progressType: "upload",
@@ -54,7 +56,7 @@ export class MemoryResource {
       content: async session => {
         const step = 10;
         for (let i = 0; i <= step; i += 1) {
-          await wait(100);
+          await wait(waitTime);
           console.log(i, "download", params.id);
           session.progress({
             progress: i / step,
