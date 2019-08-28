@@ -497,14 +497,6 @@
 pre.schemaValue {
   display: inline;
 }
-.selectorItem:before {
-  content: "\F138";
-  font: normal normal normal 14px/1 FontAwesome;
-  margin-right: 3px;
-}
-.selectorItemActive:before {
-  content: "\F058";
-}
 
 .menuItem {
   border: 1px solid #ccc;
