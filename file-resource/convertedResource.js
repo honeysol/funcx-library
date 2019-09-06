@@ -27,9 +27,9 @@ export class ConvertedResource {
         if (!content) {
           return content;
         }
-        const [__dammy_whole, typePart] = content.type.match(
+        const typePart = (content.type.match(
           /^([a-zA-Z0-9/-]+)/
-        );
+        ) || {})[1];
         if (this.plugins[typePart]) {
           for (const plugin of this.plugins[typePart]) {
             if (plugin.accept(content)) {
