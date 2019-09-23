@@ -5,7 +5,7 @@ import stringify from "json-stable-stringify";
 import { Buffer } from "buffer";
 import createBrowserHistory from "history/createBrowserHistory";
 import createMemoryHistory from "history/createMemoryHistory";
-import { canUseDOM } from "history/DOMUtils";
+const canUseDOM = true;
 
 /** @abstract */
 class StateHistory {
@@ -142,11 +142,10 @@ class StateHistory {
     // param -> path(& state)
     const currentState = this.parsePath();
     const urlPath = this.compoundPath(newPath, localData);
-    if (newPath !== currentState.path) {
-      this.history.push(urlPath, { localData: localData });
-    } else if (
+    if (
       localData !== currentState.localData ||
-      urlPath !== this.urlPath
+      urlPath !== this.urlPath ||
+      newPath !== currentState.path
     ) {
       if (push) {
         this.history.push(urlPath, { localData: localData });

@@ -73,9 +73,11 @@ class ErrorComponent extends React.Component<any, any> {
   }
 }
 
+// 与えられたprops.routesに基づいてルーティングする
 export class MatchRouter extends AbstractRouter {
   routes: any;
   routeMatcher: RouteMatcher;
+  // rebuild routeMatcher from props.route
   updateRoute(props: any) {
     const newRoutes =
       props.routes ||
@@ -87,14 +89,27 @@ export class MatchRouter extends AbstractRouter {
     if (!this.routes) {
       console.error("routes not specified for MatchRouter", this);
     }
+    if (!this.routeMatcher) {
+      console.error("routeMatcher not set", this);
+    }
   }
   // Upper to Lower (path to param / value)
   getState(props: any) {
     this.updateRoute(props);
-    const routeParams: any = this.routeMatcher.next(props.routeParams);
+    let routeParams: any = this.routeMatcher.next(props.routeParams);
+    // paramsにcomponentが存在しない場合、childrenをたどる
+    // paramsにcomponentが存在する場合は、そのcomponentが、childrenを扱う
+    while (
+      routeParams &&
+      routeParams.routeMatcher &&
+      (!routeParams.params || !routeParams.params.component)
+    ) {
+      routeParams = routeParams.routeMatcher.next(routeParams);
+    }
     return { routeParams };
   }
   onUpdateRouteParams = (routeParams: any) => {
+    this.updateRoute(this.props);
     this.props.onUpdateRouteParams(this.routeMatcher.reverse(routeParams));
     this.setState({ routeParams });
   };
@@ -125,4 +140,70 @@ export class HistoryRouter extends AbstractRouter {
     this.props.history.updatePath(routeParams, { push: true });
     this.setState({ routeParams });
   };
+}
+
+const openLink = props => {
+  const params = props.params || props;
+  if (params.path || params.value) {
+    const history = props.system.history;
+    history.updatePath(
+      {
+        path: params.path,
+        value: params.value,
+      },
+      {
+        enableEvent: !params.silent,
+        push: !params.replace,
+      }
+    );
+  } else if (params.href) {
+    if (params.target) {
+      window.open(params.href, params.target);
+    } else {
+      location.href = params.href;
+    }
+  }
+};
+
+export class Link extends React.Component {
+  openLink = e => {
+    e.preventDefault();
+    if (this.props.onClick) {
+      this.props.onClick(e);
+    } else {
+      openLink(this.props);
+    }
+  };
+  render() {
+    if (this.props.path || this.props.value || this.props.onClick) {
+      return (
+        <a
+          {...Object.assign({}, this.props, { replace: null })}
+          href="#"
+          onClick={this.openLink}
+        >
+          {this.props.children}
+        </a>
+      );
+    } else if (this.props.href) {
+      return (
+        <a {...Object.assign({}, this.props, { replace: null })} href="#">
+          {this.props.children}
+        </a>
+      );
+    } else {
+      return <div>{this.props.children}</div>;
+    }
+  }
+}
+
+export class Redirect extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log("Redirect", props);
+    openLink(props);
+  }
+  render() {
+    return <div />;
+  }
 }

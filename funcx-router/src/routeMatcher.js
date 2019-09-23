@@ -220,6 +220,7 @@ export class RouteMatcher {
           params: Object.assign({}, params, response.params),
           value: Object.assign({}, value, response.value),
           path: response.childPath,
+          routeMatcher: routeEntry.childMatcher,
         };
       }
     }
