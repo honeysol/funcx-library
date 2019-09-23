@@ -360,6 +360,33 @@
     background: transparent;
   }
 }
+.compactMode {
+  .fieldHeader {
+    width: 100%;
+    border-right: none;
+    padding: 5px 0 0;
+    line-height: 20px;
+  }
+  .fieldHeader,
+  .schemaItem {
+    background-color: transparent;
+    display: block;
+  }
+  .schemaItem {
+    border: none;
+  }
+  .schemaValueContainer {
+    border: 1px solid #ccc;
+  }
+  .grabber {
+    flex: 1;
+  }
+  .fieldHeader,
+  .itemHeader {
+    background: transparent;
+  }
+}
+
 .hide {
   display: none !important;
 }
@@ -573,6 +600,7 @@ pre.schemaValue {
 .app .header > * {
   align-self: center;
 }
+
 .app .content {
   height: calc(100% - 30px);
   box-sizing: border-box;
