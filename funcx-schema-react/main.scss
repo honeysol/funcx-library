@@ -279,14 +279,14 @@
   display: none;
 }
 
-.errorMessage {
+.schemaItem .errorMessage {
   color: #f33;
   width: 100%;
   border-top: 1px solid #f88;
   padding: 3px 10px;
   background-color: #fff8f8;
 }
-.errorMessage.hideErrorMessage {
+.schemaItem .errorMessage.hideErrorMessage {
   display: none;
 }
 .schemaValueContainer {
@@ -567,7 +567,7 @@ pre.schemaValue {
   line-height: 42px;
   padding: 0 12px;
   background: #f8f8ff;
-  color: #f55034;
+  color: #333333;
   display: flex;
 }
 .app .header > * {
