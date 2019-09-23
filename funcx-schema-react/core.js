@@ -69,8 +69,9 @@ export class FuncxComponent extends React.Component<any, any> {
 
   constructor(props: any) {
     super(props);
-    this.onUpdateValue = this.onUpdateValue && this.onUpdateValue.bind(this);
-
+    if (this.onUpdateValue) {
+      this.onUpdateValue = this.onUpdateValue.bind(this);
+    }
     this.state = {
       value: this.calculateStateValue(this.props.value),
       validationSuppressed: props.params.suppressValidation,
@@ -82,9 +83,9 @@ export class FuncxComponent extends React.Component<any, any> {
       });
     }
   }
-  onUpdateValue: (value: any) => void;
-  onFocus: Function;
-  onBlur: Function;
+  onUpdateValue(value: any): void {}
+  onFocus() {}
+  onBlur() {}
 
   // wrap difference update
   isChanged() {
@@ -236,15 +237,15 @@ export class FuncxComponent extends React.Component<any, any> {
   validate(value: any) {
     this.validationRequestCounter += 1;
     const validationRequestCounter = this.validationRequestCounter;
-    return findAsync([
-      ...toArray(this.validators),
-      ...toArray(this.props.params.validators),
-    ], validator => {
-      return validator(value, this.props.params, {
-        context: this.props.context,
-        system: this.props.system,
-      });
-    }).then(validationResult => {
+    return findAsync(
+      [...toArray(this.validators), ...toArray(this.props.params.validators)],
+      validator => {
+        return validator(value, this.props.params, {
+          context: this.props.context,
+          system: this.props.system,
+        });
+      }
+    ).then(validationResult => {
       if (this.validationCommitCounter < validationRequestCounter) {
         this.validationCommitCounter = validationRequestCounter;
         return validationResult;
@@ -295,6 +296,7 @@ export class FuncxComponent extends React.Component<any, any> {
 export class InputComponent extends FuncxComponent {
   onChange: any;
   onChange = (e: any) => {
+    console.log("onChange", e.target.value, this.state.value);
     this.setState({
       validationSuppressed: false,
     });
