@@ -162,11 +162,49 @@ export class Value extends InputComponent {
   }
 }
 
-export class Display extends React.Component {
+export class Display extends InputComponent {
   render() {
+    const Component = this.getComponent(this.props.params.schema, {
+      defaultComponent: DisplayFilename,
+    });
+    const progress = this.state.innerValue && this.state.innerValue.progress;
+    const progressWidth = progress != null ? progress.toFixed(2) + "%" : null;
     return (
-      <div className="schemaValue">
-        {this.props.value && this.props.value.name}
+      <div className="schemaValueContainer">
+        <div
+          className="schemaValue"
+          style={{
+            position: "relative",
+            flex: this.state.value ? "none" : null,
+          }}
+        >
+          <div className="progressBarContainer">
+            <div className={classnames(!progress && "hide")}>
+              <div
+                className="progress-bar__primary"
+                style={{ width: progressWidth }}
+              />
+            </div>
+          </div>
+          <Component
+            value={this.state.value}
+            onUpdateValue={this.onUpdateValue}
+            params={this.props.params.schema}
+            system={this.props.system}
+            context={this.props.context}
+          />
+          <button
+            type="button"
+            tabIndex="-1"
+            className="buttonIcon actionButton"
+            onClick={this.download}
+            style={{
+              display: !this.state.value ? "none" : null,
+            }}
+          >
+            <span className="fa fa-cloud-download " />
+          </button>
+        </div>
       </div>
     );
   }
