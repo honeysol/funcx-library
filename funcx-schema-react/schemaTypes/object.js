@@ -3,6 +3,7 @@ import React from "react";
 import { InputComponent } from "../core.js";
 import update from "immutability-helper";
 import classnames from "classnames";
+import _ from "lodash";
 
 class Field extends InputComponent {
   onUpdateValue(value) {
@@ -31,6 +32,7 @@ class Field extends InputComponent {
             params={this.state.params.schema}
             system={this.props.system}
             context={this.props.context}
+            fieldName={this.props.fieldName}
           />
         )}
       </div>
@@ -56,18 +58,15 @@ class ObjectValue extends InputComponent {
       );
     }
   }
-  getFieldValue(propertyName) {
-    if (propertyName != null) {
-      return this.state.value && this.state.value[propertyName] != null
-        ? this.state.value[propertyName]
-        : this.props.value && this.props.value[propertyName];
-    } else {
-      return this.getValue();
+  updateEditingValue(newValue) {
+    if (!_.isEqual(newValue, this.state.value)) {
+      this.setValue(newValue);
     }
   }
   render() {
     const context = this.getContext();
     const validationResult = this.getDisplayValidationResult(this.state);
+    const value = this.getValue();
     return (
       <div className={this.state.params.className}>
         <div className="objectProperties">
@@ -79,10 +78,15 @@ class ObjectValue extends InputComponent {
                   key={`item-${index}`}
                   index={index}
                   params={property}
-                  value={this.getFieldValue(property.propertyName)}
+                  value={
+                    property.propertyName != null && value
+                      ? value[property.propertyName]
+                      : value
+                  }
                   onUpdateValue={_value =>
                     this.onUpdateValue(_value, property.propertyName)
                   }
+                  fieldName={property.propertyName}
                   system={this.props.system}
                   context={context}
                 />
@@ -93,7 +97,7 @@ class ObjectValue extends InputComponent {
           <div className="errorMessage">
             {this.s(validationResult.stringId)}
           </div>
-        )}          
+        )}
       </div>
     );
   }
