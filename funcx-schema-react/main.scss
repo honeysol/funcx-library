@@ -102,7 +102,7 @@
 }
 .schemaValueDisplay {
   align-items: center;
-  padding: 10px;
+  padding: 0 10px;
 }
 .fieldHeader,
 .itemHeader {
@@ -385,6 +385,10 @@
   .itemHeader {
     background: transparent;
   }
+  .schemaOneof {
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
 }
 
 .hide {
@@ -525,66 +529,6 @@ pre.schemaValue {
   display: inline;
 }
 
-.menuItem {
-  border: 1px solid #ccc;
-  padding: 6px 10px;
-  margin: -1px;
-  cursor: pointer;
-}
-.menuItem.active {
-  background: #f2fafd;
-}
-.multicolumn {
-  position: absolute;
-  height: 100%;
-  width: 0;
-  transition: right 0.5s;
-}
-.multicolumnItem {
-  transition: width 0.5s;
-  width: 400px;
-  position: absolute;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-.multicolumnItem,
-.multicolumnItem .multicolumnItemContainer {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.multicolumnItem .multiColumnItemHeader {
-  height: 24px;
-  overflow: hidden;
-  min-height: 24px;
-  background-image: linear-gradient(180deg, #f5f5f5 0, #e8e8e8);
-  margin: 0;
-  display: flex;
-  padding: 6px 8px;
-}
-.multicolumnItem .multiColumnItemHeader .multiColumnItemHeaderText {
-  flex: 1;
-}
-.multicolumnItem .multiColumnItemHeader .multiColumnItemHeaderIcon,
-.multicolumnItem .multiColumnItemHeader .multiColumnItemHeaderToolbox {
-  align-self: center;
-  font-size: 18px;
-  padding: 0 3px;
-}
-.multicolumnItem .multiColumnItemHeader .multiColumnItemHeaderToolbox {
-  cursor: pointer;
-  color: #005ec9;
-}
-.multicolumnItem .multiColumnItemHeader .multiColumnItemHeaderIcon {
-  color: #005ec9;
-}
-.multicolumnItem .multiColumnItemBody {
-  flex: 1;
-  overflow: scroll;
-  padding-bottom: 30px;
-}
 .app {
   box-sizing: border-box;
 }
@@ -668,4 +612,10 @@ pre.schemaValue {
 
 .schemaValueBoolean {
   font-size: 16px;
+}
+
+.compactMode {
+  .schemaValueContainer {
+    border: none;
+  }
 }
