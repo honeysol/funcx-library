@@ -150,11 +150,12 @@ export class FuncxComponent extends React.Component<any, any> {
     return (
       nextProps.params !== this.props.params ||
       nextProps.context !== this.props.context ||
-      nextState.value !== this.state.value ||
-      nextState.validationResult !== this.state.validationResult ||
-      nextState.validationSuppressed !== this.state.validatonSuppressed ||
-      nextState.validationNotPassed !== this.state.validationNotPassed ||
-      nextState.innerValue !== this.state.innerValue
+      (nextState == null) !== (this.state == null) ||
+      ((nextState && this.state && nextState.value !== this.state.value) ||
+        nextState.validationResult !== this.state.validationResult ||
+        nextState.validationSuppressed !== this.state.validatonSuppressed ||
+        nextState.validationNotPassed !== this.state.validationNotPassed ||
+        nextState.innerValue !== this.state.innerValue)
     );
   }
   getDisplayValidationResult(state: any) {
@@ -296,7 +297,6 @@ export class FuncxComponent extends React.Component<any, any> {
 export class InputComponent extends FuncxComponent {
   onChange: any;
   onChange = (e: any) => {
-    console.log("onChange", e.target.value, this.state.value);
     this.setState({
       validationSuppressed: false,
     });
