@@ -46,7 +46,13 @@ class ImageComponent extends InputComponent {
     this.setValueAsync(value);
   }
   async setValueAsync(value) {
-    if ((this.oldValue && this.oldValue.id) === (value && value.id)) {
+    if (
+      typeof value === "object" &&
+      (this.oldValue && this.oldValue.id) === (value && value.id)
+    ) {
+      return;
+    }
+    if (typeof value === "string" && this.oldValue === value) {
       return;
     }
     this.oldValue = value;
@@ -55,15 +61,21 @@ class ImageComponent extends InputComponent {
       container.removeChild(container.firstChild);
     }
     if (value) {
-      const file = await this.props.system.fileResource
-        .fetchSession({
-          id: value.id,
-        })
-        .getContent();
-      if (!file) {
+      const image = await (async () => {
+        if (typeof value === "string") {
+          return urlToImage(value);
+        } else {
+          const file = await this.props.system.fileResource
+            .fetchSession({
+              id: value.id,
+            })
+            .getContent();
+          return file && blobToImage(file);
+        }
+      })();
+      if (!image) {
         return;
       }
-      const image = await blobToImage(file);
       image.style.width = "100%";
       container = ReactDOM.findDOMNode(this.refs.container);
       if (container) {
@@ -89,6 +101,7 @@ class ImageComponent extends InputComponent {
           ref="container"
           style={this.containerStyle}
           className={classnames(
+            "schemaValueImage",
             (!this.state.innerValue || !this.state.innerValue.ready) && "hide"
           )}
         />
@@ -104,4 +117,4 @@ class ImageComponent extends InputComponent {
 
 export const Value = ImageComponent;
 
-export class Display extends ImageComponent {}
+export const Display = ImageComponent;
