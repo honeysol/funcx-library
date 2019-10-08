@@ -233,10 +233,37 @@ export class HashStateHistory extends StateHistory {
       {}
     );
   }
+  // queryRestrinctionで示されたパラメータだけを引き継いたURLSearchParamsを新たに作成して返す
+  getSearchParams() {
+    const oldSearchQuery = new URLSearchParams(this.history.location.search);
+    if (this.options.queryRestriction) {
+      const newSearchQuery = new URLSearchParams();
+      for (const key of this.options.queryRestriction) {
+        if (oldSearchQuery.has(key)) {
+          newSearchQuery.append(key, oldSearchQuery.get(key));
+        }
+      }
+      return newSearchQuery;
+    } else {
+      return oldSearchQuery;
+    }
+  }
+  getSearchString(params) {
+    const searchParams = this.getSearchParams();
+    if (params) {
+      for (const key of Object.keys(params)) {
+        searchParams.append(key, params[key]);
+      }
+    }
+    const searchString = searchParams.toString();
+    return searchString ? "?" + searchString : "";
+  }
+
   /** @ignore */
   compoundPath(path: string, localData: any) {
     return (
       this.history.location.pathname +
+      this.getSearchString() +
       "#" +
       path +
       (localData && this.showLocalValue ? "?" + localData : "")
