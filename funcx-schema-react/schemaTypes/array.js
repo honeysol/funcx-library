@@ -95,7 +95,7 @@ class SortableList extends FuncxComponent {
   render() {
     const length = (this.state.value && this.state.value.length) || 0;
     return (
-      <div>
+      <div className={classnames(this.props.params.className)}>
         {this.state.value &&
           this.state.value.map((value, index) => (
             <SchemaItem
@@ -157,7 +157,7 @@ class ArrayDisplay extends FuncxComponent {
     const Component = this.getComponent(this.props.params.items);
     const context = this.getContext();
     return (
-      <div className={classnames(this.props.params.className)}>
+      <div className={classnames(this.props.params.className, "schemaArray")}>
         {this.state.value &&
           this.state.value.map((value, index) => (
             <div className={classnames("schemaItem")} key={`item-${index}`}>

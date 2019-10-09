@@ -492,11 +492,18 @@
 .blockedArray {
   border: none !important;
 }
-.blockedArray > .schemaItem {
+.blockedArray > .schemaItem,
+.dragging.schemaItem {
   border: none;
+  display: flex;
+  > .itemHeader {
+    background-color: #f8f8f8;
+  }
 }
-.blockedArray > .schemaItem > div {
-  margin: 10px 5px;
+
+.blockedArray > .schemaItem > div,
+.dragging.schemaItem > div {
+  background-color: #fff;
   border: 1px solid #ccc;
   padding: 10px 20px;
 }
