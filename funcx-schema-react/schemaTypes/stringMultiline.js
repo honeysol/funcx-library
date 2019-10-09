@@ -52,7 +52,6 @@ export class Display extends React.Component {
       <pre
         style={{
           padding: "10px",
-          fontSize: "16px",
           margin: 0,
         }}
         className="schemaValue"
