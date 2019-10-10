@@ -4,6 +4,9 @@ import { InputComponent } from "../core.js";
 import classnames from "classnames";
 import ReactDOM from "react-dom";
 
+// TODO
+// 非同期処理の順序制御ができていないので、たまに矛盾した画像が表示される
+
 const urlToImage = url => {
   return new Promise((fulfilled, rejected) => {
     const image = new Image();
