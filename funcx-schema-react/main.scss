@@ -506,6 +506,13 @@
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 10px 20px;
+  &.schemaValueDisplay {
+    padding: 0 10px;
+  }
+}
+
+.dragging.schemaItem > .schemaValueContainer {
+  padding: 0 !important;
 }
 .selectedItem {
   box-shadow: 0 0 4px 2px #f90;
