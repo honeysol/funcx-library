@@ -2,18 +2,20 @@ import React from "react";
 import * as validators from "../validators";
 import { InputComponent } from "../core.js";
 import classnames from "classnames";
-
+import _ from "lodash";
 import Slider from "rc-slider";
 
 export class Value extends InputComponent {
   validators = [validators.required, validators.range];
-  onUpdateValue(value) {
+
+  onUpdateValue = _.throttle(value => {
     this.setValue(value);
-  }
-  onChangeText = e => {
-    const value = parseInt(e.target.value || 0, 10);
-    this.setValue(parseInt(value, 10));
-  };
+  }, 150);
+  onChangeText = _.throttle(e => {
+    const text = e.target.value;
+    const value = text ? parseInt(text, 10) : null;
+    this.setValue(value);
+  }, 20);
   bound(_value) {
     let value = _value;
     if (this.state.params.max !== null && this.state.params.max !== undefined) {
@@ -87,10 +89,8 @@ export class Value extends InputComponent {
   };
   render() {
     const valueString =
-      this.state.value !== undefined &&
-      this.state.value !== null &&
-      !isNaN(this.state.value)
-        ? this.state.value + (this.state.params.offset || 0)
+      typeof this.state.value === "number" && !isNaN(this.state.value)
+        ? String(this.state.value + (this.state.params.offset || 0))
         : this.state.params.defaultString || "";
     const value = !isNaN(this.state.value) ? this.state.value : null;
     const validationResult = this.getDisplayValidationResult(this.state);
@@ -120,7 +120,7 @@ export class Value extends InputComponent {
               } else {
                 return (
                   <input
-                    type="number"
+                    type="text"
                     value={valueString}
                     max={this.state.params.max}
                     min={this.state.params.min}
@@ -142,7 +142,7 @@ export class Value extends InputComponent {
                   this.state.params.showControl === false) &&
                   "hide"
               )}
-              onClick={() => this.step(-1)}
+              onClick={() => this.largeStep(-1)}
             >
               <span className="fa fa-forward mirror" />
             </button>
@@ -153,12 +153,15 @@ export class Value extends InputComponent {
                 "buttonIcon buttonIconInset",
                 this.state.params.showControl === false && "hide"
               )}
-              onClick={() => this.largeStep(-1)}
+              onClick={() => this.step(-1)}
             >
               <span className="fa fa-play mirror" />
             </button>
             <Slider
-              value={value || 0}
+              value={this.bound(value)}
+              className={classnames(
+                this.state.params.showSlider === false && "hide"
+              )}
               max={this.state.params.max || 10}
               min={this.state.params.min}
               step={this.state.params.step}
@@ -171,7 +174,7 @@ export class Value extends InputComponent {
                 "buttonIcon buttonIconInset",
                 this.state.params.showControl === false && "hide"
               )}
-              onClick={() => this.largeStep(1)}
+              onClick={() => this.step(1)}
             >
               <span className="fa fa-play" />
             </button>
@@ -184,7 +187,7 @@ export class Value extends InputComponent {
                   this.state.params.showControl === false) &&
                   "hide"
               )}
-              onClick={() => this.step(1)}
+              onClick={() => this.largeStep(1)}
             >
               <span className="fa fa-forward" />
             </button>
