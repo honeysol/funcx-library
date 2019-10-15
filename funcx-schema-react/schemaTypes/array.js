@@ -1,5 +1,6 @@
 import React from "react";
 import classnames from "classnames";
+import crypto from "crypto";
 
 import {
   SortableContainer,
@@ -78,15 +79,22 @@ class SortableList extends FuncxComponent {
     );
   }
   itemInsert(index) {
+    const defaultValue =
+      this.props.params.defaultValue === undefined
+        ? null
+        : this.props.params.defaultValue;
     this.setValue(
       update(this.state.value || [], {
         $splice: [
           [
             index,
             0,
-            this.props.params.items.defaultValue === undefined
-              ? null
-              : this.props.params.items.defaultValue,
+            this.props.params.useId
+              ? {
+                  ...defaultValue,
+                  itemId: crypto.randomBytes(8).toString("hex"),
+                }
+              : defaultValue,
           ],
         ],
       })
@@ -96,20 +104,26 @@ class SortableList extends FuncxComponent {
     const length = (this.state.value && this.state.value.length) || 0;
     return (
       <div className={classnames(this.props.params.className)}>
-        {this.state.value &&
-          this.state.value.map((value, index) => (
-            <SchemaItem
-              key={`item-${index}`}
-              index={index}
-              params={this.props.params.items}
-              value={value}
-              onUpdateValue={_value => this.onUpdateValue(_value, index)}
-              itemRemove={() => this.itemRemove(index)}
-              itemInsert={() => this.itemInsert(index)}
-              system={this.props.system}
-              context={Object.assign({}, this.props.context, { index })}
-            />
-          ))}
+        {this.state.value?.map((value, index) => (
+          <SchemaItem
+            key={`item-${index}`}
+            index={index}
+            params={this.props.params.items}
+            value={value}
+            onUpdateValue={_value => this.onUpdateValue(_value, index)}
+            itemRemove={() => this.itemRemove(index)}
+            itemInsert={() => this.itemInsert(index)}
+            system={this.props.system}
+            context={{
+              ...this.props.context,
+              index,
+              position: [
+                ...(this.props.context.position || []),
+                this.props.params.useId ? { itemId: value.itemId } : index,
+              ],
+            }}
+          />
+        ))}
         <button
           type="button"
           tabIndex="-1"
@@ -156,21 +170,29 @@ class ArrayDisplay extends FuncxComponent {
   render() {
     const Component = this.getComponent(this.props.params.items);
     const context = this.getContext();
+    if (this.state.value && !Array.isArray(this.state.value)) {
+      console.log(this.state.value);
+      console.error("value is not array");
+      return <div />;
+    }
     return (
       <div className={classnames(this.props.params.className, "schemaArray")}>
-        {this.state.value &&
-          this.state.value.map((value, index) => (
-            <div className={classnames("schemaItem")} key={`item-${index}`}>
-              <Component
-                index={index}
-                params={this.props.params.items}
-                value={value}
-                onUpdateValue={() => {}}
-                system={this.props.system}
-                context={Object.assign({}, context, { index })}
-              />
-            </div>
-          ))}
+        {this.state.value?.map((value, index) => (
+          <div className={classnames("schemaItem")} key={`item-${index}`}>
+            <Component
+              index={index}
+              params={this.props.params.items}
+              value={value}
+              onUpdateValue={() => {}}
+              system={this.props.system}
+              context={{
+                ...context,
+                index,
+                position: [...(context.position || []), index],
+              }}
+            />
+          </div>
+        ))}
       </div>
     );
   }

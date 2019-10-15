@@ -32,7 +32,6 @@ class Field extends InputComponent {
             params={this.state.params.schema}
             system={this.props.system}
             context={this.props.context}
-            fieldName={this.props.fieldName}
           />
         )}
       </div>
@@ -86,9 +85,18 @@ class ObjectValue extends InputComponent {
                   onUpdateValue={_value =>
                     this.onUpdateValue(_value, property.propertyName)
                   }
-                  fieldName={property.propertyName}
                   system={this.props.system}
-                  context={context}
+                  context={
+                    !property.propertyName
+                      ? context
+                      : {
+                          ...context,
+                          position: [
+                            ...(context.position || []),
+                            property.propertyName,
+                          ],
+                        }
+                  }
                 />
               );
             })}
