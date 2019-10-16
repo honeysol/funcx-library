@@ -50,11 +50,7 @@ export class Display extends React.Component {
     );
     return (
       <pre
-        style={{
-          padding: "10px",
-          margin: 0,
-        }}
-        className="schemaValue"
+        className="schemaValue schemaValueStringMultiline"
         dangerouslySetInnerHTML={{ __html: sanitizedContent }}
       />
     );

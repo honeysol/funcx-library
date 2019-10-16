@@ -633,3 +633,8 @@ pre.schemaValue {
     border: none;
   }
 }
+
+pre.schemaValue.schemaValueStringMultiline {
+  margin: 10px 5px;
+  display: block;
+}
