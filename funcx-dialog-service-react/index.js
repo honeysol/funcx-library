@@ -202,52 +202,52 @@ export class DialogService {
       return response;
     });
   }
-  alert({ title, message }) {
+  alert({ title, message, okButton }) {
     return this.openAlertDialog({
       title: title,
       message: message,
       options: [
         {
-          title: "OK",
+          title: okButton || "OK",
           value: true,
           primal: true,
         },
       ],
     });
   }
-  confirm({ title, message }) {
+  confirm({ title, message, cancelButton, okButton }) {
     return this.openAlertDialog({
       title: title,
       message: message,
       options: [
         {
-          title: "Cancel",
+          title: cancelButton || "Cancel",
           value: false,
           primal: true,
         },
         {
-          title: "OK",
+          title: okButton || "OK",
           value: true,
         },
       ],
     });
   }
-  confirmSave({ title, message }) {
+  confirmSave({ title, message, cancelButton, discardButton, saveButton }) {
     return this.openAlertDialog({
       title: title,
       message: message,
       options: [
         {
-          title: "Cancel",
+          title: cancelButton || "Cancel",
           value: false,
           primal: true,
         },
         {
-          title: "Discard",
+          title: discardButton || "Discard",
           value: "discard",
         },
         {
-          title: "Save",
+          title: saveButton || "Save",
           value: "save",
         },
       ],
