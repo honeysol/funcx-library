@@ -33,7 +33,7 @@
     "history": "^4.7.2",
     "immutability-helper": "^3.0.0",
     "localforage": "^1.7.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "onsenui": "^2.10.6",
     "path-to-regexp": "^3.0.0",
     "rc-slider": "^8.6.6",
