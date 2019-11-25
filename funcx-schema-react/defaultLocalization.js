@@ -29,6 +29,10 @@ const localization = new Localization(
         title: "Log out",
         message: "Are you sure to log out?",
       },
+      checkError: {
+        title: "Notice",
+        message: "Check error message",
+      },
     },
     ja: {
       emailValidation: "メールアドレスとして正しくない文字列です",
@@ -65,6 +69,11 @@ const localization = new Localization(
         message: "本当にログアウトしますか？",
         okButton: "ログアウト",
         cancelButton: "キャンセル",
+      },
+      checkError: {
+        title: "確認",
+        message:
+          "エラーがあるため、保存できません。エラーメッセージを確認してください",
       },
     },
   },
