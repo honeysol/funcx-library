@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import * as validators from "../validators";
 import { InputComponent } from "../core.js";
 import classnames from "classnames";
+import { AsyncCommitter } from "async-committer";
 
 class DisplayFilename extends React.Component<any, any> {
   render() {
@@ -19,32 +20,45 @@ class DisplayFilename extends React.Component<any, any> {
 }
 
 export class Value extends InputComponent {
-  validators = [validators.required];
+  validators = [validators.required, validators.uploading];
+  asyncCommitter = new AsyncCommitter();
   onChange = (e: any) => {
     const file = e.target.files[0];
     this.setState({
       validationSuppressed: false,
     });
     (async () => {
-      const session = await this.props.system.fileResource.uploadSession(file);
-      session.on("progress", progressParams => {
-        const progress =
-          progressParams.progress !== null
-            ? progressParams.progress * 100
-            : null;
-        console.log(progressParams, progress);
-        this.setState({
-          innerValue: {
-            progress,
-          },
+      const { successed, value } = await this.asyncCommitter.run(async () => {
+        // validationの更新のみ行う
+        this.setValue(this.state.value, true, true);
+        const session = await this.props.system.fileResource.uploadSession(
+          file
+        );
+        session.on("progress", progressParams => {
+          const progress =
+            progressParams.progress !== null
+              ? progressParams.progress * 100
+              : null;
+          this.setState({
+            innerValue: {
+              progress,
+            },
+          });
         });
+        const params = await session.getParams();
+        this.setValue(params);
+        await session.onUploaded();
+        return null;
       });
-      const params = await session.getParams();
-      console.log(params);
-      this.setValue(params);
-      await session.onUploaded();
+      if (successed) {
+        // validationの更新のみ行う
+        this.setValue(this.state.value, true, true);
+      }
     })();
   };
+  isUploading() {
+    return this.asyncCommitter.isRunning();
+  }
   remove = () => {
     ReactDOM.findDOMNode(this.refs.fileInput).value = null;
     this.setValue(null);
@@ -162,7 +176,7 @@ export class Value extends InputComponent {
   }
 }
 
-export class Display extends InputComponent {
+export class Display extends Value {
   render() {
     const Component = this.getComponent(this.props.params.schema, {
       defaultComponent: DisplayFilename,

@@ -244,6 +244,7 @@ export class FuncxComponent extends React.Component<any, any> {
         return validator(value, this.props.params, {
           context: this.props.context,
           system: this.props.system,
+          target: this,
         });
       }
     ).then(validationResult => {

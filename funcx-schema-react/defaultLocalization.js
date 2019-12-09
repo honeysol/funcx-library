@@ -44,6 +44,7 @@ const localization = new Localization(
       passwordMatchValidation: "パスワードが一致しません",
       requireValueValidation: "必須項目です",
       objectFillValidation: "すべての項目を入力する必要があります",
+      uploadingValidation: "アップロード中です",
       confirmSaveOrDiscard: {
         title: "保存または破棄",
         message:

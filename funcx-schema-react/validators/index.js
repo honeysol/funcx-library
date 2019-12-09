@@ -157,11 +157,27 @@ export const objectFill = function range(value, params, { context }) {
     const propertyStatus = checkRequired(propertyValue);
     if (status === null) {
       status = propertyStatus;
-    } else if ( status !== propertyStatus) {
-      console.log('%', "not passed");
+    } else if (status !== propertyStatus) {
+      console.log("%", "not passed");
       return objectFillValidation;
     }
   }
-  console.log('%', "passed");
+  console.log("%", "passed");
   return null;
+};
+
+const uploadingValidation = {
+  stringId: "uploadingValidation",
+};
+
+export const uploading = function uploading(
+  value,
+  params,
+  { context, target }
+) {
+  if (target.isUploading()) {
+    return uploadingValidation;
+  } else {
+    return null;
+  }
 };
