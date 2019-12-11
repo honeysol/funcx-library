@@ -10,7 +10,8 @@ const localization = new Localization(
       patternValidation: "Pattern not match",
       passwordMatchValidation: "Password not match",
       requireValueValidation: "Required",
-      objectFillValidation: "Fill all aields",
+      objectFillValidation: "Fill all fields",
+      uploadingValidation: "Uploading",
       confirmSaveOrDiscard: {
         title: "Save",
         message:
@@ -24,6 +25,10 @@ const localization = new Localization(
       confirmDiscard: {
         title: "Discard",
         message: "Are you sure to discard this item?",
+      },
+      confirmRemove: {
+        title: "Remove",
+        message: "Are you sure to remove this item?",
       },
       confirmLogout: {
         title: "Log out",
@@ -63,6 +68,12 @@ const localization = new Localization(
         title: "破棄",
         message: "本当に破棄しますか？",
         okButton: "破棄",
+        cancelButton: "キャンセル",
+      },
+      confirmRemove: {
+        title: "削除",
+        message: "本当に削除しますか？",
+        okButton: "削除",
         cancelButton: "キャンセル",
       },
       confirmLogout: {
