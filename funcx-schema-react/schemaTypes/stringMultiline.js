@@ -8,7 +8,7 @@ export class Value extends InputComponent {
   render() {
     const validationResult = this.getDisplayValidationResult(this.state);
     return (
-      <div className="schemaValueContainer" style={{ height: "80px" }}>
+      <div className="schemaValueContainer">
         <div className="schemaValue">
           <textarea
             type="text"
