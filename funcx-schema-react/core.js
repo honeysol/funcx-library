@@ -112,7 +112,7 @@ export class FuncxComponent extends React.Component<any, any> {
   }
 
   onFocus = () => {
-    this.validationAccessor.focus();
+    this.validationAccessor?.focus();
   };
   onBlur = () => {
     this.setState({
