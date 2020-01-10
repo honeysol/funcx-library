@@ -85,6 +85,9 @@
   line-height: 16px;
   font-size: 16px;
 }
+.schemaValue textarea {
+  min-height: 80px;
+}
 .schemaValue select {
   height: 42px;
   background: #fff;
