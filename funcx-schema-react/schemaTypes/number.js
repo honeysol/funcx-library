@@ -151,28 +151,34 @@ export class Value extends InputComponent {
               tabIndex="-1"
               className={classnames(
                 "buttonIcon buttonIconInset",
-                this.state.params.showControl === false && "hide"
+                (!this.state.params.step ||
+                  this.state.params.showControl === false) &&
+                  "hide"
               )}
               onClick={() => this.step(-1)}
             >
               <span className="fa fa-play mirror" />
             </button>
-            <Slider
-              value={this.bound(value)}
-              className={classnames(
-                this.state.params.showSlider === false && "hide"
-              )}
-              max={this.state.params.max || 10}
-              min={this.state.params.min}
-              step={this.state.params.step}
-              onChange={this.onUpdateValue}
-            />
+            {this.state.params.max != null && (
+              <Slider
+                value={this.bound(value)}
+                className={classnames(
+                  this.state.params.showSlider === false && "hide"
+                )}
+                max={this.state.params.max}
+                min={this.state.params.min}
+                step={this.state.params.step}
+                onChange={this.onUpdateValue}
+              />
+            )}
             <button
               type="button"
               tabIndex="-1"
               className={classnames(
                 "buttonIcon buttonIconInset",
-                this.state.params.showControl === false && "hide"
+                (!this.state.params.step ||
+                  this.state.params.showControl === false) &&
+                  "hide"
               )}
               onClick={() => this.step(1)}
             >
