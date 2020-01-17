@@ -225,6 +225,8 @@ export class Value extends InputComponent {
 
 export class Display extends React.Component {
   render() {
-    return <div className="schemaValue">{this.props.value}</div>;
+    return (
+      <div className="schemaValue schemaValueDisplay">{this.props.value}</div>
+    );
   }
 }
