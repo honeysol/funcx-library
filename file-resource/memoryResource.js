@@ -32,6 +32,7 @@ export class MemoryResource {
         return {
           id: getRandomHexString(32),
           filename: blob.name,
+          mimeType: blob.type,
         };
       },
       upload: async session => {
