@@ -331,6 +331,7 @@
 }
 .arrayFooter {
   margin-top: 5px;
+  margin-bottom: 5px;
 }
 .buttonDisabled {
   opacity: 0.5;
@@ -346,7 +347,7 @@
     line-height: 20px;
   }
   .fieldHeader,
-  .schemaItem {
+  .schemaItem:not(.schemaItemArray) {
     background-color: transparent;
     display: block;
   }
@@ -359,8 +360,8 @@
   .grabber {
     flex: 1;
   }
-  .fieldHeader,
-  .itemHeader {
+  .fieldHeader/*,
+  .itemHeader*/ {
     background: transparent;
   }
 }
@@ -385,8 +386,8 @@
   .grabber {
     flex: 1;
   }
-  .fieldHeader,
-  .itemHeader {
+  .fieldHeader/*,
+  .itemHeader*/ {
     background: transparent;
   }
   .schemaOneof {

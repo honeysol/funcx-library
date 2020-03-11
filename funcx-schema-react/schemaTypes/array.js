@@ -30,7 +30,7 @@ class SchemaItem extends FuncxComponent {
   render() {
     const Component = this.getComponent(this.props.params);
     return (
-      <div className="schemaItem">
+      <div className="schemaItem schemaItemArray">
         <span className="itemHeader">
           <button
             type="button"
@@ -178,7 +178,10 @@ class ArrayDisplay extends FuncxComponent {
     return (
       <div className={classnames(this.props.params.className, "schemaArray")}>
         {this.state.value?.map((value, index) => (
-          <div className={classnames("schemaItem")} key={`item-${index}`}>
+          <div
+            className={classnames("schemaItem schemaItemArray")}
+            key={`item-${index}`}
+          >
             <Component
               index={index}
               params={this.props.params.items}

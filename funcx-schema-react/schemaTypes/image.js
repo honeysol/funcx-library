@@ -1,118 +1,61 @@
 import React from "react";
-import * as validators from "../validators";
-import { InputComponent } from "../core.js";
 import classnames from "classnames";
-import ReactDOM from "react-dom";
+import { asyncComputed } from "mobx-library/mobx-async-computed";
+import { component, render } from "mobx-library/mobx-react-component";
+import { computed } from "mobx";
 
-// TODO
-// 非同期処理の順序制御ができていないので、たまに矛盾した画像が表示される
-
-const urlToImage = url => {
-  return new Promise((fulfilled, rejected) => {
-    const image = new Image();
-    image.addEventListener(
-      "load",
-      () => {
-        fulfilled(image);
-      },
-      false
-    );
-    image.addEventListener(
-      "error",
-      e => {
-        rejected(e);
-      },
-      false
-    );
-    image.src = url;
-  });
-};
-
-const blobToImage = async blob => {
-  const url = URL.createObjectURL(blob);
-  try {
-    const image = await urlToImage(url);
-    URL.revokeObjectURL(url);
-    return image;
-  } catch (e) {
-    URL.revokeObjectURL(url);
-    throw e;
-  }
-};
-
-class ImageComponent extends InputComponent {
-  validators = [validators.required];
-  oldId;
+@component.pure
+class ImageComponent extends React.Component {
   containerStyle = { padding: "10px" };
-  setValue(value) {
-    super.setValue(value);
-    this.setValueAsync(value);
+  @computed.struct
+  get value() {
+    return this.props.value;
   }
-  async setValueAsync(value) {
-    if (
-      typeof value === "object" &&
-      (this.oldValue && this.oldValue.id) === (value && value.id)
-    ) {
-      return;
-    }
-    if (typeof value === "string" && this.oldValue === value) {
-      return;
-    }
-    this.oldValue = value;
-    let container = ReactDOM.findDOMNode(this.refs.container);
-    if (container && container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
-    if (value) {
-      const image = await (async () => {
-        if (typeof value === "string") {
-          return urlToImage(value);
-        } else {
-          const file = await this.props.system.fileResource
-            .fetchSession({
-              id: value.id,
-            })
-            .getContent();
-          return file && blobToImage(file);
-        }
-      })();
-      if (!image) {
-        return;
-      }
-      image.style.width = "100%";
-      container = ReactDOM.findDOMNode(this.refs.container);
-      if (container) {
-        if (container.firstChild) {
-          container.removeChild(container.firstChild);
-        }
-        container.appendChild(image);
-        this.oldValue = value;
-        this.setState({
-          innerValue: { ready: true },
-        });
-      } else {
-        this.oldValue = value;
-      }
+  @asyncComputed
+  get image() {
+    if (typeof this.value === "string") {
+      return this.value;
+    } else {
+      return this.props.system.fileResource
+        .fetchSession({
+          id: this.value.id,
+        })
+        .getContent();
     }
   }
+  @computed
+  get imageURL() {
+    return this.updateCurrentImageURL(this.image);
+  }
+  updateCurrentImageURL(image) {
+    if (this._imageURL) {
+      URL.revokeObjectURL(this._imageURL);
+      this._imageURL = null;
+    }
+    if (!image || typeof image === "string") {
+      return image;
+    } else {
+      this._imageURL = URL.createObjectURL(image);
+      return this._imageURL;
+    }
+  }
+  componentWillUnmount() {
+    super.componentWillUnmount?.();
+    this.updateCurrentImageURL(null);
+  }
+  debugRef = React.createRef();
 
-  render() {
-    const validationResult = this.getDisplayValidationResult(this.state);
+  @render
+  get render() {
     return (
       <div className="schemaValueContainer">
         <div
-          ref="container"
+          ref={this.debugRef}
           style={this.containerStyle}
-          className={classnames(
-            "schemaValueImage",
-            (!this.state.innerValue || !this.state.innerValue.ready) && "hide"
-          )}
-        />
-        {validationResult && (
-          <div className="errorMessage">
-            {this.s(validationResult.stringId)}
-          </div>
-        )}
+          className={classnames("schemaValueImage", !this.imageURL && "hide")}
+        >
+          <img src={this.imageURL} style={{ width: "100%" }} />
+        </div>
       </div>
     );
   }
