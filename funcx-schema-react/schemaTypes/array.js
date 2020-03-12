@@ -106,7 +106,7 @@ class SortableList extends FuncxComponent {
       <div className={classnames(this.props.params.className)}>
         {this.state.value?.map((value, index) => (
           <SchemaItem
-            key={`item-${index}`}
+            key={value?.[this.props.params.keyField] || `item-${index}`}
             index={index}
             params={this.props.params.items}
             value={value}
