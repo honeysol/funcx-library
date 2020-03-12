@@ -37,6 +37,7 @@ class SchemaItem extends FuncxComponent {
             tabIndex="-1"
             className="buttonIcon"
             onClick={this.props.itemRemove}
+            style={{ visibility: this.props.newItem && "hidden" }}
           >
             <span className="icon-close" />
           </button>
@@ -45,10 +46,14 @@ class SchemaItem extends FuncxComponent {
             tabIndex="-1"
             className="buttonIcon"
             onClick={this.props.itemInsert}
+            style={{ visibility: this.props.newItem && "hidden" }}
           >
             <span className="icon-plus" />
           </button>
-          <DragHandle />
+          {!this.props.newItem && <DragHandle />}
+          {this.props.newItem && (
+            <div className="grabber" style={{ visibility: "hidden" }} />
+          )}
         </span>
         <Component
           value={this.state.value}
@@ -66,7 +71,7 @@ class SchemaItem extends FuncxComponent {
 class SortableList extends FuncxComponent {
   onUpdateValue(value, index) {
     this.setValue(
-      update(this.state.value, {
+      update(this.state.value || [], {
         $splice: [[index, 1, value]],
       })
     );
@@ -102,9 +107,12 @@ class SortableList extends FuncxComponent {
   }
   render() {
     const length = (this.state.value && this.state.value.length) || 0;
+    const array = this.props.params.appendNew
+      ? (this.state.value || []).concat([null])
+      : this.state.value;
     return (
       <div className={classnames(this.props.params.className)}>
-        {this.state.value?.map((value, index) => (
+        {array?.map((value, index) => (
           <SchemaItem
             key={value?.[this.props.params.keyField] || `item-${index}`}
             index={index}
@@ -113,6 +121,7 @@ class SortableList extends FuncxComponent {
             onUpdateValue={_value => this.onUpdateValue(_value, index)}
             itemRemove={() => this.itemRemove(index)}
             itemInsert={() => this.itemInsert(index)}
+            newItem={this.props.params.appendNew && index === array.length - 1}
             system={this.props.system}
             context={{
               ...this.props.context,
@@ -124,14 +133,16 @@ class SortableList extends FuncxComponent {
             }}
           />
         ))}
-        <button
-          type="button"
-          tabIndex="-1"
-          className="buttonIcon arrayFooter"
-          onClick={() => this.itemInsert(length)}
-        >
-          <span className="icon-plus" />
-        </button>
+        {!this.props.params.appendNew && (
+          <button
+            type="button"
+            tabIndex="-1"
+            className="buttonIcon arrayFooter"
+            onClick={() => this.itemInsert(length)}
+          >
+            <span className="icon-plus" />
+          </button>
+        )}
       </div>
     );
   }
