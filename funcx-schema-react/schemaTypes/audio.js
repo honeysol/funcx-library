@@ -5,7 +5,7 @@ import { component, render } from "mobx-library/mobx-react-component";
 import { computed } from "mobx";
 
 @component.pure
-class ImageComponent extends React.Component {
+class AudioComponent extends React.Component {
   containerStyle = { padding: "10px" };
   @computed.struct
   get value() {
@@ -54,13 +54,15 @@ class ImageComponent extends React.Component {
           style={this.containerStyle}
           className={classnames("schemaValueImage", !this.objectURL && "hide")}
         >
-          <img src={this.objectURL} style={{ width: "100%" }} />
+          <div>
+            <audio controls src={this.objectURL} ref={this.audioElement} />
+          </div>
         </div>
       </div>
     );
   }
 }
 
-export const Value = ImageComponent;
+export const Value = AudioComponent;
 
-export const Display = ImageComponent;
+export const Display = AudioComponent;
