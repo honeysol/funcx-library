@@ -1,12 +1,14 @@
 import React from "react";
 import classnames from "classnames";
 import { asyncComputed } from "mobx-library/mobx-async-computed";
-import { component, render } from "mobx-library/mobx-react-component";
-import { computed } from "mobx";
+import { component, render, prop } from "mobx-library/mobx-react-component";
+import { computed, observable } from "mobx";
+import Slider from "rc-slider";
 
 @component.pure
 class AudioComponent extends React.Component {
   containerStyle = { padding: "10px" };
+  @prop params;
   @computed.struct
   get value() {
     return this.props.value;
@@ -43,23 +45,94 @@ class AudioComponent extends React.Component {
     super.componentWillUnmount?.();
     this.updateCurrentObjectURL(null);
   }
-  debugRef = React.createRef();
+  @observable
+  currentTime = 0;
+  @observable
+  playing = false;
+  @computed
+  get duration() {
+    return this.value?.duration;
+  }
+  audioContainerRef = React.createRef();
+
+  play() {
+    this.playing = true;
+    Array.from(this.audioContainerRef.current.children).forEach(audio => {
+      audio.play();
+    });
+  }
+  pause() {
+    this.playing = false;
+    Array.from(this.audioContainerRef.current.children).forEach(audio => {
+      audio.pause();
+    });
+  }
+  onTimeChange = value => {
+    console.log(value);
+    Array.from(this.audioContainerRef.current.children).forEach(audio => {
+      audio.currentTime = value;
+    });
+    this.currentTime = value;
+  };
 
   @render
   get render() {
     return (
       <div className="schemaValueContainer">
-        <div
-          ref={this.debugRef}
-          style={this.containerStyle}
-          className={classnames("schemaValueImage", !this.objectURL && "hide")}
-        >
-          <div>
-            <audio controls src={this.objectURL} ref={this.audioElement} />
+        <div style={{ display: "flex", "align-items": "center" }}>
+          {!this.playing && (
+            <button
+              className={classnames("toolboxIcon", false && "active")}
+              onClick={() => this.play()}
+            >
+              <i className={"fas fa-play"} />
+            </button>
+          )}
+          {this.playing && (
+            <button
+              className={classnames("toolboxIcon", false && "active")}
+              onClick={() => this.pause()}
+            >
+              <i className={"fas fa-pause"} />
+            </button>
+          )}
+          <div className="schemaValueNumber" style={{ flex: 1 }}>
+            <Slider
+              value={this.currentTime}
+              max={this.duration}
+              min={0}
+              step={0.1}
+              onChange={this.onTimeChange}
+            />
+          </div>
+          {(this.currentTime || 0).toFixed(1)}/{(this.duration || 0).toFixed(1)}
+          <div ref={this.audioContainerRef}>
+            {[true].map((blob, index) => {
+              return (
+                <audio
+                  style={{ display: "none" }}
+                  controls
+                  key={index}
+                  src={this.objectURL}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
     );
+  }
+  componentDidMount() {
+    console.log("this.audioRefs", this.audioContainerRef);
+    Array.from(this.audioContainerRef.current.children).forEach(audio => {
+      audio.addEventListener("timeupdate", event => {
+        this.currentTime = audio.currentTime;
+      });
+      audio.addEventListener("ended", event => {
+        this.playing = false;
+        this.currentTime = 0;
+      });
+    });
   }
 }
 
