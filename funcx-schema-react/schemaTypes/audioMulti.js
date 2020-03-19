@@ -15,7 +15,7 @@ class AudioComponent extends React.Component {
   }
   @asyncComputed
   get blobs() {
-    return this.value.map(value => {
+    return this.value?.map(value => {
       if (typeof value === "string") {
         return value;
       } else {
@@ -75,7 +75,6 @@ class AudioComponent extends React.Component {
     });
   }
   onTimeChange = value => {
-    console.log(value);
     Array.from(this.audioContainerRef.current.children).forEach(audio => {
       audio.currentTime = value;
     });
@@ -85,7 +84,9 @@ class AudioComponent extends React.Component {
   @render
   get render() {
     return (
-      <div className="schemaValueContainer">
+      <div
+        style={{ width: "100%", display: "flex", "flex-direction": "column" }}
+      >
         <div style={{ display: "flex", "align-items": "center" }}>
           {!this.playing && (
             <button
