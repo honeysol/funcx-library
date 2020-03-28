@@ -1,7 +1,12 @@
 import React from "react";
 import classnames from "classnames";
 import { asyncComputed } from "mobx-library/mobx-async-computed";
-import { component, render, prop } from "mobx-library/mobx-react-component";
+import {
+  component,
+  render,
+  prop,
+  watch,
+} from "mobx-library/mobx-react-component";
 import { computed, observable } from "mobx";
 import Slider from "rc-slider";
 
@@ -9,17 +14,21 @@ import Slider from "rc-slider";
 class AudioComponent extends React.Component {
   containerStyle = { padding: "10px" };
   @prop params;
+  @prop system;
+  @prop onCurrentTimeChange;
+
   @computed.struct
   get value() {
     return this.props.value;
   }
+
   @asyncComputed
   get blobs() {
     return this.value?.map(value => {
       if (typeof value === "string") {
         return value;
       } else {
-        return this.props.system.fileResource
+        return this.system.fileResource
           .fetchSession({
             id: value.id,
           })
@@ -62,6 +71,11 @@ class AudioComponent extends React.Component {
   }
   audioContainerRef = React.createRef();
 
+  @watch("currentTime")
+  onLocalCurrentTimeChange() {
+    this.props.onCurrentTimeChange?.(this.currentTime);
+  }
+
   play() {
     this.playing = true;
     Array.from(this.audioContainerRef.current.children).forEach(audio => {
@@ -90,16 +104,22 @@ class AudioComponent extends React.Component {
         <div style={{ display: "flex", "align-items": "center" }}>
           {!this.playing && (
             <button
-              className={classnames("toolboxIcon", false && "active")}
-              onClick={() => this.play()}
+              className={classnames("toolboxIcon")}
+              onClick={e => {
+                e.stopPropagation();
+                this.play();
+              }}
             >
               <i className={"fas fa-play"} />
             </button>
           )}
           {this.playing && (
             <button
-              className={classnames("toolboxIcon", false && "active")}
-              onClick={() => this.pause()}
+              className={classnames("toolboxIcon")}
+              onClick={e => {
+                e.stopPropagation();
+                this.pause();
+              }}
             >
               <i className={"fas fa-pause"} />
             </button>
@@ -153,7 +173,6 @@ class AudioComponent extends React.Component {
     }
     const audio = this.audioContainerRef.current.children[0];
     if (audio) {
-      console.log("audio", audio);
       audio.addEventListener("timeupdate", this.onTimeUpdate);
       audio.addEventListener("ended", this.onEnded);
       this.cancelers.push(() =>

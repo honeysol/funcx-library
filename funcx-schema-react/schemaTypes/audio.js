@@ -9,6 +9,7 @@ import Slider from "rc-slider";
 class AudioComponent extends React.Component {
   containerStyle = { padding: "10px" };
   @prop params;
+  @prop system;
   @computed.struct
   get value() {
     return this.props.value;
@@ -18,7 +19,7 @@ class AudioComponent extends React.Component {
     if (typeof this.value === "string") {
       return this.value;
     } else {
-      return this.props.system.fileResource
+      return this.system.fileResource
         .fetchSession({
           id: this.value.id,
         })
@@ -83,16 +84,22 @@ class AudioComponent extends React.Component {
         <div style={{ display: "flex", "align-items": "center" }}>
           {!this.playing && (
             <button
-              className={classnames("toolboxIcon", false && "active")}
-              onClick={() => this.play()}
+              className={classnames("toolboxIcon")}
+              onClick={e => {
+                e.stopPropagation();
+                this.play();
+              }}
             >
               <i className={"fas fa-play"} />
             </button>
           )}
           {this.playing && (
             <button
-              className={classnames("toolboxIcon", false && "active")}
-              onClick={() => this.pause()}
+              className={classnames("toolboxIcon")}
+              onClick={e => {
+                e.stopPropagation();
+                this.pause();
+              }}
             >
               <i className={"fas fa-pause"} />
             </button>
@@ -124,7 +131,6 @@ class AudioComponent extends React.Component {
     );
   }
   componentDidMount() {
-    console.log("this.audioRefs", this.audioContainerRef);
     Array.from(this.audioContainerRef.current.children).forEach(audio => {
       audio.addEventListener("timeupdate", event => {
         this.currentTime = audio.currentTime;
