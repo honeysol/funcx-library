@@ -16,11 +16,14 @@ class ImageComponent extends React.Component {
     if (typeof this.value === "string") {
       return this.value;
     } else {
-      return this.props.system.fileResource
-        .fetchSession({
-          id: this.value.id,
-        })
-        .getContent();
+      return (
+        this.value?.id &&
+        this.props.system.fileResource
+          .fetchSession({
+            id: this.value.id,
+          })
+          .getContent()
+      );
     }
   }
   @computed

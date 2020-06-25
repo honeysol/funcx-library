@@ -448,6 +448,14 @@
   color: #fff;
   background-color: #005ec9;
 }
+.selectorItem.selectorItemDisabled {
+  opacity: 1;
+  color: #666;
+  border-color: #666;
+  background-color: #fff;
+  cursor: inherit;
+}
+
 .progressBarContainer {
   position: absolute;
   top: 0;

@@ -110,9 +110,10 @@ class SortableList extends FuncxComponent {
     const array = this.props.params.appendNew
       ? (this.state.value || []).concat([null])
       : this.state.value;
+    console.log("array", array);
     return (
       <div className={classnames(this.props.params.className)}>
-        {array?.map((value, index) => (
+        {array?.map?.((value, index) => (
           <SchemaItem
             key={value?.[this.props.params.keyField] || `item-${index}`}
             index={index}

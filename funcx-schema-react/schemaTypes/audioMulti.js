@@ -24,17 +24,22 @@ class AudioComponent extends React.Component {
 
   @asyncComputed
   get blobs() {
-    return this.value?.map(value => {
-      if (typeof value === "string") {
-        return value;
-      } else {
-        return this.system.fileResource
-          .fetchSession({
-            id: value.id,
-          })
-          .getContent();
-      }
-    });
+    if (!this.value) {
+      return null;
+    }
+    return Promise.all(
+      this.value?.map(value => {
+        if (typeof value === "string") {
+          return value;
+        } else {
+          return this.system.fileResource
+            .fetchSession({
+              id: value.id,
+            })
+            .getContent();
+        }
+      })
+    );
   }
   @computed
   get objectURLs() {
