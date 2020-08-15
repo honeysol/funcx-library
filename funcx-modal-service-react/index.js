@@ -28,7 +28,7 @@ class Modals extends React.Component {
     super(props);
     this.state = { list: [] };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.callback(this);
   }
   addModal(config) {

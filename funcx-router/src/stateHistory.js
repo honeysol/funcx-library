@@ -3,8 +3,7 @@
 import EventEmitter from "events";
 import stringify from "json-stable-stringify";
 import { Buffer } from "buffer";
-import createBrowserHistory from "history/createBrowserHistory";
-import createMemoryHistory from "history/createMemoryHistory";
+import { createBrowserHistory, createMemoryHistory } from "history";
 const canUseDOM = true;
 
 /** @abstract */

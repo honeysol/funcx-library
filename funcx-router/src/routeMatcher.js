@@ -1,6 +1,6 @@
 // @flow
 
-import pathToRegexp from "path-to-regexp";
+import { pathToRegexp, compile } from "path-to-regexp";
 
 /** @ignore */
 interface Route {
@@ -20,7 +20,7 @@ class RouteEntry {
   /** @ignore */
   regexp: RegExp;
   /** @ignore */
-  toPath: any => string;
+  toPath: (any) => string;
   /** @ignore */
   keys = [];
   /** @ignore */
@@ -46,9 +46,9 @@ class RouteEntry {
       routeSetting
     );
     this.isPrefix = !pathOptions.end;
-    if(routeSetting.path) {
+    if (routeSetting.path) {
       this.regexp = pathToRegexp(routeSetting.path, this.keys, pathOptions);
-      this.toPath = pathToRegexp.compile(routeSetting.path);
+      this.toPath = compile(routeSetting.path);
       this.isStar = routeSetting.path === "*";
     }
     if (routeSetting.children) {
@@ -165,7 +165,7 @@ export class RouteMatcher {
       isPrefix: boolean,
     }[]
   ) {
-    this.routeEntries = routeSettings.map(routeSetting => {
+    this.routeEntries = routeSettings.map((routeSetting) => {
       const routeEntry = new RouteEntry(routeSetting);
       this.routeEntryMap[routeSetting.id] = routeEntry;
       return routeEntry;
