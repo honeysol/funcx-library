@@ -43,7 +43,7 @@ class ImageComponent extends React.Component {
     }
   }
   componentWillUnmount() {
-    super.componentWillUnmount?.();
+    super.componentWillUnmount && super.componentWillUnmount();
     this.updateCurrentObjectURL(null);
   }
   debugRef = React.createRef();

@@ -63,7 +63,7 @@ class AudioComponent extends React.Component {
     });
   }
   componentWillUnmount() {
-    super.componentWillUnmount?.();
+    super.componentWillUnmount && super.componentWillUnmount();
     this.updateCurrentObjectURL(null);
   }
   @observable
