@@ -82,7 +82,7 @@ class ObjectValue extends InputComponent {
                       ? value[property.propertyName]
                       : value
                   }
-                  onUpdateValue={_value =>
+                  onUpdateValue={(_value) =>
                     this.onUpdateValue(_value, property.propertyName)
                   }
                   system={this.props.system}

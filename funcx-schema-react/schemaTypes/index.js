@@ -1,4 +1,4 @@
-const importAll = context => {
+const importAll = (context) => {
   const modules = {};
   for (const key of context.keys()) {
     const match = key.match(/\.\/([a-zA-Z]+)\.js$/);

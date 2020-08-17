@@ -16,13 +16,13 @@ export class FileCacheResource {
   uploadSession(blob) {
     const substantialSession = this.resource.uploadSession(blob);
     const session = new Session({
-      content: _session => {
+      content: (_session) => {
         return substantialSession.getContent();
       },
-      params: _session => {
+      params: (_session) => {
         return substantialSession.getParams();
       },
-      upload: async _session => {
+      upload: async (_session) => {
         console.log("start upload");
         const params = await substantialSession.getParams();
         await substantialSession.onUploaded();
@@ -39,17 +39,17 @@ export class FileCacheResource {
         })();
       },
     });
-    substantialSession.on("progress", progressParam =>
+    substantialSession.on("progress", (progressParam) =>
       session.progress(progressParam)
     );
     return session;
   }
   fetchSession(params) {
     const session = new Session({
-      params: _session => {
+      params: (_session) => {
         return params;
       },
-      content: async _session => {
+      content: async (_session) => {
         // ここでキャッシュを調べる
         const startTime = new Date().getTime();
         console.log("localForage.getItem start");
@@ -63,7 +63,7 @@ export class FileCacheResource {
           return cachedContent;
         }
         const substantialSession = this.resource.fetchSession(params);
-        substantialSession.on("progress", progressParam =>
+        substantialSession.on("progress", (progressParam) =>
           session.progress(progressParam)
         );
         const content = await substantialSession.getContent();

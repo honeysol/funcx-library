@@ -15,7 +15,7 @@ class DateDisplay extends React.Component {
 
 export class DateValue extends FuncxComponent {
   validators = [validators.required, validators.pattern];
-  onChange = e => {
+  onChange = (e) => {
     this.setValue(e.target.value ? moment(e.target.value).valueOf() : null);
   };
   render() {

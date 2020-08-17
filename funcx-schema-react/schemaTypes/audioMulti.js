@@ -28,7 +28,7 @@ class AudioComponent extends React.Component {
       return null;
     }
     return Promise.all(
-      this.value?.map(value => {
+      this.value?.map((value) => {
         if (typeof value === "string") {
           return value;
         } else {
@@ -52,7 +52,7 @@ class AudioComponent extends React.Component {
       }
     }
     this._objectURLs = [];
-    return blobs?.map(blob => {
+    return blobs?.map((blob) => {
       if (!blob || typeof blob === "string") {
         return blob;
       } else {
@@ -83,18 +83,18 @@ class AudioComponent extends React.Component {
 
   play() {
     this.playing = true;
-    Array.from(this.audioContainerRef.current.children).forEach(audio => {
+    Array.from(this.audioContainerRef.current.children).forEach((audio) => {
       audio.play();
     });
   }
   pause() {
     this.playing = false;
-    Array.from(this.audioContainerRef.current.children).forEach(audio => {
+    Array.from(this.audioContainerRef.current.children).forEach((audio) => {
       audio.pause();
     });
   }
-  onTimeChange = value => {
-    Array.from(this.audioContainerRef.current.children).forEach(audio => {
+  onTimeChange = (value) => {
+    Array.from(this.audioContainerRef.current.children).forEach((audio) => {
       audio.currentTime = value;
     });
     this.currentTime = value;
@@ -110,7 +110,7 @@ class AudioComponent extends React.Component {
           {!this.playing && (
             <button
               className={classnames("toolboxIcon")}
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.play();
               }}
@@ -121,7 +121,7 @@ class AudioComponent extends React.Component {
           {this.playing && (
             <button
               className={classnames("toolboxIcon")}
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.pause();
               }}

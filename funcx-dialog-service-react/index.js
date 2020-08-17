@@ -35,7 +35,7 @@ class OnsenAlertDialog extends React.Component {
               {this.props.params.message}
             </div>
             <div className="alert-dialog-footer">
-              {this.props.params.options.map(option => (
+              {this.props.params.options.map((option) => (
                 <button
                   type="button"
                   onClick={() => this.modalShouldBeClosed(option.value)}
@@ -69,7 +69,7 @@ class OnsenAlertDialogRow extends React.Component {
               {this.props.params.message}
             </div>
             <div className="alert-dialog-footer alert-dialog-footer--rowfooter">
-              {this.props.params.options.map(option => (
+              {this.props.params.options.map((option) => (
                 <button
                   type="button"
                   onClick={() => this.modalShouldBeClosed(option.value)}
@@ -104,7 +104,7 @@ class OnsenDownloadDialog extends React.Component {
               {this.props.params.message}
             </div>
             <div className="alert-dialog-footer">
-              {this.props.params.options.map(option => (
+              {this.props.params.options.map((option) => (
                 <a
                   href={option.url}
                   download={option.filename}
@@ -134,7 +134,7 @@ class OnsenActionSheet extends React.Component {
       <div className="onsenuiModule">
         <div className="action-sheet">
           <div className="action-sheet-title">{this.props.params.title}</div>
-          {this.props.params.options.map(option => (
+          {this.props.params.options.map((option) => (
             <button
               type="button"
               onClick={() => this.modalShouldBeClosed(option.value)}
@@ -160,7 +160,7 @@ export class DialogService {
   openDialog(Component, params, callback = null) {
     if (callback === null) {
       return new Promise((fulfilled, rejected) => {
-        this.openDialog(Component, params, response => {
+        this.openDialog(Component, params, (response) => {
           fulfilled(response);
         });
       });
@@ -173,7 +173,7 @@ export class DialogService {
         );
         return element;
       },
-      onClose: response => {
+      onClose: (response) => {
         callback(response);
       },
     });
@@ -193,7 +193,7 @@ export class DialogService {
           primal: true,
         },
       ],
-    }).then(response => {
+    }).then((response) => {
       if (blob) {
         setTimeout(() => {
           URL.revokeObjectURL(downloadURL);
@@ -257,19 +257,19 @@ export class DialogService {
     return this.openDialog(
       params.vertical ? OnsenAlertDialog : OnsenAlertDialogRow,
       params
-    ).then(response => {
+    ).then((response) => {
       console.log(response);
       return response;
     });
   }
   openActionSheet(params) {
-    return this.openDialog(OnsenActionSheet, params).then(response => {
+    return this.openDialog(OnsenActionSheet, params).then((response) => {
       console.log(response);
       return response;
     });
   }
   openDownloadDialog(params) {
-    return this.openDialog(OnsenDownloadDialog, params).then(response => {
+    return this.openDialog(OnsenDownloadDialog, params).then((response) => {
       console.log(response);
       return response;
     });

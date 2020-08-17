@@ -4,7 +4,7 @@ import { setupCache } from "axios-cache-adapter";
 
 const cache = setupCache({
   maxAge: 15 * 60 * 1000,
-  key: req => {
+  key: (req) => {
     return req.url + req.params.host;
   },
   exclude: { query: false },
@@ -13,7 +13,7 @@ const emailDomainApi = axios.create({
   adapter: cache.adapter,
 });
 
-const checkRequired = value => {
+const checkRequired = (value) => {
   return value !== null && value !== undefined && value !== "";
 };
 
@@ -52,7 +52,7 @@ export const emailDomain = function emailDomain(
       .get(system.settings.emailValidationEndpoint, {
         params: { host: domain },
       })
-      .then(response => {
+      .then((response) => {
         if (response.data.status === "found") {
           return null;
         } else {

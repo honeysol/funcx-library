@@ -44,8 +44,8 @@ export class Session {
     if (listener) {
       return this.emitter.once(eventName, listener);
     } else {
-      return new Promise(fulfilled => {
-        this.emitter.once(eventName, result => {
+      return new Promise((fulfilled) => {
+        this.emitter.once(eventName, (result) => {
           fulfilled(result);
         });
       });

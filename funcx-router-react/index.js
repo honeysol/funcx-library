@@ -5,7 +5,7 @@ import { RouteMatcher } from "funcx-router/src";
 
 const cloneChildren = (children, props) => {
   if (Array.isArray(children)) {
-    return React.Children.map(props, child => {
+    return React.Children.map(props, (child) => {
       return cloneChildren(child, props);
     });
   } else if (typeof children === "object") {
@@ -40,12 +40,12 @@ export class AbstractRouter extends React.Component<any, any> {
       // For Component
       value: this.state.routeParams && this.state.routeParams.value,
       params: this.state.routeParams && this.state.routeParams.params,
-      onUpdateValue: value => {
+      onUpdateValue: (value) => {
         this.onUpdateRouteParams(
           Object.assign({}, this.state.routeParams, { value: value })
         );
       },
-      onClosed: response => {
+      onClosed: (response) => {
         if (this.state.routeParams.params.onClosed) {
           this.state.routeParams.params.onClosed(response, props);
         }
@@ -142,7 +142,7 @@ export class HistoryRouter extends AbstractRouter {
   };
 }
 
-const openLink = props => {
+const openLink = (props) => {
   const params = props.params || props;
   if (params.path || params.value) {
     const history = props.system.history;
@@ -166,7 +166,7 @@ const openLink = props => {
 };
 
 export class Link extends React.Component {
-  openLink = e => {
+  openLink = (e) => {
     e.preventDefault();
     if (this.props.onClick) {
       this.props.onClick(e);

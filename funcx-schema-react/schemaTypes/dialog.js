@@ -56,7 +56,7 @@ class DialogValue extends FuncxComponent {
                 title: this.state.params.title,
               }}
               ref="content"
-              closeModal={reponse => closeModal(reponse)}
+              closeModal={(reponse) => closeModal(reponse)}
               index={index}
               value={this.getValue()}
               onUpdateValue={this.onUpdateValue}

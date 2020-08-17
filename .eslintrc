@@ -4,6 +4,9 @@
   "settings": {
     "flowtype": {
       "onlyFilesWithFlowAnnotation": true
+    },
+    "react": {
+      "version": "detect"
     }
   },
   "env": { "browser": true, "es6": true },

@@ -79,8 +79,8 @@ export class ValidationHelper {
   recalculateValidation() {
     this.validationCount = 0;
     this.suppressableValidationCount = 0;
-    for(const validation of Object.values(this.validations)) {
-      if(validation.validationResult) {
+    for (const validation of Object.values(this.validations)) {
+      if (validation.validationResult) {
         this.validationCount += 1;
       }
     }

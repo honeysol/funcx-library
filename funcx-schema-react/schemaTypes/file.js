@@ -34,7 +34,7 @@ export class Value extends InputComponent {
         const session = await this.props.system.fileResource.uploadSession(
           file
         );
-        session.on("progress", progressParams => {
+        session.on("progress", (progressParams) => {
           const progress =
             progressParams.progress !== null
               ? progressParams.progress * 100
@@ -72,7 +72,7 @@ export class Value extends InputComponent {
         },
         { original: true }
       );
-      session.on("progress", progressParams => {
+      session.on("progress", (progressParams) => {
         this.setState({
           innerValue: { progress: progressParams.progress * 100 },
         });

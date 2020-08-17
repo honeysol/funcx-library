@@ -14,13 +14,13 @@ export class UrlResource {
   }
   fetchSession(params) {
     return new Session({
-      params: session => {
+      params: (session) => {
         return params;
       },
-      content: async session => {
+      content: async (session) => {
         const response = await axios.get(params.url, {
           responseType: "arraybuffer",
-          onDownloadProgress: e => {
+          onDownloadProgress: (e) => {
             session.progress({
               progressType: "download",
               detail: "publicHttp",

@@ -8,10 +8,10 @@ import Slider from "rc-slider";
 export class Value extends InputComponent {
   validators = [validators.required, validators.range];
 
-  onUpdateValue = _.throttle(value => {
+  onUpdateValue = _.throttle((value) => {
     this.setValue(value);
   }, 150);
-  onChangeText = _.throttle(e => {
+  onChangeText = _.throttle((e) => {
     const text = e.target.value;
     const value = text ? parseInt(text, 10) : null;
     this.setValue(value);
@@ -59,7 +59,7 @@ export class Value extends InputComponent {
     );
   }
   intervalHandler = null;
-  togglePlay = newPlaying => {
+  togglePlay = (newPlaying) => {
     const currentPlaying = Boolean(this.intervalHandler);
     const playing = newPlaying === undefined ? !currentPlaying : newPlaying;
 
@@ -78,7 +78,7 @@ export class Value extends InputComponent {
         clearInterval(this.intervalHandler);
         this.intervalHandler = null;
       }
-      this.setState(state => {
+      this.setState((state) => {
         return Object.assign({}, state, {
           innerValue: {
             playing: playing,

@@ -21,7 +21,7 @@ const findAsync = function findAsync(array, callback) {
   if (!array || !array.length) {
     return immediatePromise(null);
   }
-  return immediatePromise(callback(array[0])).then(result => {
+  return immediatePromise(callback(array[0])).then((result) => {
     if (result) {
       return immediatePromise(result);
     } else {
@@ -151,11 +151,11 @@ export class FuncxComponent extends React.Component<any, any> {
       nextProps.params !== this.props.params ||
       nextProps.context !== this.props.context ||
       (nextState == null) !== (this.state == null) ||
-      ((nextState && this.state && nextState.value !== this.state.value) ||
-        nextState.validationResult !== this.state.validationResult ||
-        nextState.validationSuppressed !== this.state.validatonSuppressed ||
-        nextState.validationNotPassed !== this.state.validationNotPassed ||
-        nextState.innerValue !== this.state.innerValue)
+      (nextState && this.state && nextState.value !== this.state.value) ||
+      nextState.validationResult !== this.state.validationResult ||
+      nextState.validationSuppressed !== this.state.validatonSuppressed ||
+      nextState.validationNotPassed !== this.state.validationNotPassed ||
+      nextState.innerValue !== this.state.innerValue
     );
   }
   getDisplayValidationResult(state: any) {
@@ -206,19 +206,19 @@ export class FuncxComponent extends React.Component<any, any> {
       this.updateParent(value);
     }
     this.validate(this.getValue(value)).then(
-      validationResult => {
+      (validationResult) => {
         this.setState({
           validationResult: validationResult,
         });
         this.updateValidation(validationResult);
       },
-      err => {
+      (err) => {
         console.log(err);
       }
     );
   }
   setInnerValue(params: any) {
-    this.setState(oldState => {
+    this.setState((oldState) => {
       return _.merge(_.cloneDeep(oldState), {
         innerValue: params,
       });
@@ -240,14 +240,14 @@ export class FuncxComponent extends React.Component<any, any> {
     const validationRequestCounter = this.validationRequestCounter;
     return findAsync(
       [...toArray(this.validators), ...toArray(this.props.params.validators)],
-      validator => {
+      (validator) => {
         return validator(value, this.props.params, {
           context: this.props.context,
           system: this.props.system,
           target: this,
         });
       }
-    ).then(validationResult => {
+    ).then((validationResult) => {
       if (this.validationCommitCounter < validationRequestCounter) {
         this.validationCommitCounter = validationRequestCounter;
         return validationResult;

@@ -15,7 +15,7 @@ export class Value extends FuncxComponent {
   onSelect(selectedItem) {
     const array = Array.isArray(this.state.value) ? this.state.value : [];
     if (array.includes(selectedItem.id)) {
-      this.setValue(array.filter(item => item !== selectedItem.id));
+      this.setValue(array.filter((item) => item !== selectedItem.id));
     } else {
       this.setValue(array.concat([selectedItem.id]));
     }
@@ -83,7 +83,9 @@ export class Display extends React.Component {
   render() {
     const selectedOption =
       this.props.params.options &&
-      this.props.params.options.find(option => option && this.isActive(option));
+      this.props.params.options.find(
+        (option) => option && this.isActive(option)
+      );
     return (
       <div className="schemaValue schemaValueDisplay">
         {selectedOption && selectedOption.title}

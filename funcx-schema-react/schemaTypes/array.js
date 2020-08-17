@@ -12,7 +12,7 @@ import update from "immutability-helper";
 
 import { FuncxComponent } from "../core.js";
 
-const SortableContainerWithOptions = options => target =>
+const SortableContainerWithOptions = (options) => (target) =>
   SortableContainer(target, options);
 
 @SortableHandle
@@ -119,7 +119,7 @@ class SortableList extends FuncxComponent {
             index={index}
             params={this.props.params.items}
             value={value}
-            onUpdateValue={_value => this.onUpdateValue(_value, index)}
+            onUpdateValue={(_value) => this.onUpdateValue(_value, index)}
             itemRemove={() => this.itemRemove(index)}
             itemInsert={() => this.itemInsert(index)}
             newItem={this.props.params.appendNew && index === array.length - 1}

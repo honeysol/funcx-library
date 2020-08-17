@@ -19,17 +19,15 @@ export class ConvertedResource {
       return substantialSession;
     }
     const session = new Session({
-      params: _session => {
+      params: (_session) => {
         return params;
       },
-      content: async _session => {
+      content: async (_session) => {
         const content = await substantialSession.getContent();
         if (!content) {
           return content;
         }
-        const typePart = (content.type.match(
-          /^([a-zA-Z0-9/-]+)/
-        ) || {})[1];
+        const typePart = (content.type.match(/^([a-zA-Z0-9/-]+)/) || {})[1];
         if (this.plugins[typePart]) {
           for (const plugin of this.plugins[typePart]) {
             if (plugin.accept(content)) {
@@ -40,11 +38,11 @@ export class ConvertedResource {
         }
         return content;
       },
-      upload: _session => {
+      upload: (_session) => {
         return substantialSession.onUploaded();
       },
     });
-    substantialSession.on("progress", progressParam =>
+    substantialSession.on("progress", (progressParam) =>
       session.progress(progressParam)
     );
     return session;

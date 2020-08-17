@@ -58,18 +58,18 @@ class AudioComponent extends React.Component {
 
   play() {
     this.playing = true;
-    Array.from(this.audioContainerRef.current.children).forEach(audio => {
+    Array.from(this.audioContainerRef.current.children).forEach((audio) => {
       audio.play();
     });
   }
   pause() {
     this.playing = false;
-    Array.from(this.audioContainerRef.current.children).forEach(audio => {
+    Array.from(this.audioContainerRef.current.children).forEach((audio) => {
       audio.pause();
     });
   }
-  onTimeChange = value => {
-    Array.from(this.audioContainerRef.current.children).forEach(audio => {
+  onTimeChange = (value) => {
+    Array.from(this.audioContainerRef.current.children).forEach((audio) => {
       audio.currentTime = value;
     });
     this.currentTime = value;
@@ -85,7 +85,7 @@ class AudioComponent extends React.Component {
           {!this.playing && (
             <button
               className={classnames("toolboxIcon")}
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.play();
               }}
@@ -96,7 +96,7 @@ class AudioComponent extends React.Component {
           {this.playing && (
             <button
               className={classnames("toolboxIcon")}
-              onClick={e => {
+              onClick={(e) => {
                 e.stopPropagation();
                 this.pause();
               }}
@@ -131,11 +131,11 @@ class AudioComponent extends React.Component {
     );
   }
   componentDidMount() {
-    Array.from(this.audioContainerRef.current.children).forEach(audio => {
-      audio.addEventListener("timeupdate", event => {
+    Array.from(this.audioContainerRef.current.children).forEach((audio) => {
+      audio.addEventListener("timeupdate", (event) => {
         this.currentTime = audio.currentTime;
       });
-      audio.addEventListener("ended", event => {
+      audio.addEventListener("ended", (event) => {
         this.playing = false;
         this.currentTime = 0;
       });

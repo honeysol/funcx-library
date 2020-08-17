@@ -30,7 +30,7 @@ class MultiTypeValue extends InputComponent {
   @computed
   get component() {
     const componentFromMimeType = this.props.system.fileType.mimeType[
-      (this.value?.mimeType)
+      this.value?.mimeType
     ];
     if (componentFromMimeType) {
       return componentFromMimeType.Value;

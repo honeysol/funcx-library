@@ -3,7 +3,7 @@ import { Session } from "./session";
 
 const waitTime = 100;
 
-const getRandomHexString = byte => {
+const getRandomHexString = (byte) => {
   return crypto.randomBytes(byte).toString("hex");
 };
 const wait = (time, value) => {
@@ -24,10 +24,10 @@ export class MemoryResource {
   }
   uploadSession(blob) {
     return new Session({
-      content: session => {
+      content: (session) => {
         return blob;
       },
-      params: async session => {
+      params: async (session) => {
         await wait(waitTime);
         return {
           id: getRandomHexString(32),
@@ -35,7 +35,7 @@ export class MemoryResource {
           mimeType: blob.type,
         };
       },
-      upload: async session => {
+      upload: async (session) => {
         const params = await session.getParams();
         const step = 10;
         for (let i = 0; i <= step; i += 1) {
@@ -51,10 +51,10 @@ export class MemoryResource {
   }
   fetchSession(params) {
     return new Session({
-      params: session => {
+      params: (session) => {
         return params;
       },
-      content: async session => {
+      content: async (session) => {
         const step = 10;
         for (let i = 0; i <= step; i += 1) {
           await wait(waitTime);

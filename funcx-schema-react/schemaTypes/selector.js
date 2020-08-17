@@ -68,7 +68,7 @@ export class Value extends FuncxComponent {
             <div>
               <select
                 defaultValue={this.state.value || ""}
-                onChange={event => {
+                onChange={(event) => {
                   this.onSelectId(event.target.value);
                 }}
               >
@@ -98,7 +98,9 @@ export class Display extends React.Component {
   render() {
     const selectedOption =
       this.props.params.options &&
-      this.props.params.options.find(option => option && this.isActive(option));
+      this.props.params.options.find(
+        (option) => option && this.isActive(option)
+      );
     return (
       <div className="schemaValue schemaValueDisplay">
         {selectedOption && selectedOption.title}

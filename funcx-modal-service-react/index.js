@@ -66,7 +66,7 @@ class Modals extends React.Component {
               key={index}
               index={index}
               config={config}
-              closeModal={response => this.closeModal(response, index)}
+              closeModal={(response) => this.closeModal(response, index)}
               ref={index}
             />
           );
@@ -85,7 +85,7 @@ export class ModalService {
       document.body.appendChild(newElement);
       this.element = newElement;
     }
-    document.addEventListener("keydown", e => {
+    document.addEventListener("keydown", (e) => {
       if (e.keyCode === 27) {
         this.closeLastModal();
       }
@@ -107,12 +107,12 @@ export class ModalService {
       console.log("modalShouldBeClosed not found", modal);
     }
   }
-  setComponent = component => {
+  setComponent = (component) => {
     this.component = component;
   };
   draw() {
     ReactDOM.render(
-      <Modals callback={component => this.setComponent(component)} />,
+      <Modals callback={(component) => this.setComponent(component)} />,
       this.element
     );
   }
