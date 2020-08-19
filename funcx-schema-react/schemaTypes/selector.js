@@ -5,7 +5,7 @@ import classnames from "classnames";
 
 let selectorId = 1;
 
-export class Value extends FuncxComponent {
+class SelectorValue extends FuncxComponent {
   validators = [validators.required];
   constructor(...args) {
     super(...args);
@@ -57,6 +57,7 @@ export class Value extends FuncxComponent {
                     onClick={() => {
                       this.onSelect(item);
                     }}
+                    onChange={() => {}}
                     checked={this.isActive(item)}
                   />
                   <span>{item.title}</span>
@@ -91,7 +92,7 @@ export class Value extends FuncxComponent {
   }
 }
 
-export class Display extends React.Component {
+class SelectorDisplay extends React.Component {
   isActive(item) {
     return (item && item.id) === (this.props.value || null);
   }
@@ -108,3 +109,5 @@ export class Display extends React.Component {
     );
   }
 }
+
+export { SelectorValue as Value, SelectorDisplay as Display };
