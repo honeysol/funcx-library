@@ -44,6 +44,6 @@
     "react-sortable-hoc": "^1.11.0",
     "remark-breaks": "^2.0.1",
     "sanitize-html": "^1.27.5",
-    "validator": "^13.1.17"
+    "validator": "^13.7.0"
   }
 }
